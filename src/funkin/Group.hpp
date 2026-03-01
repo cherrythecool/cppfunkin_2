@@ -24,7 +24,7 @@ namespace funkin {
 
 		void update(float delta) override;
 
-		std::vector<std::shared_ptr<T> > members = {};
+		std::vector<std::shared_ptr<T>> members = {};
 	};
 
 	template<IsObject T>

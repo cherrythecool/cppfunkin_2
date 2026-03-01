@@ -1,3 +1,7 @@
+function createStage()
+    print("hi lol")
+end
+
 local sky = Sprite.new(-643, -313)
 sky:loadTexture("assets/stages/desert/skylayer.png")
 add(sky)

@@ -1,6 +1,7 @@
 #include "LuaScript.hpp"
-#include "Sprite.hpp"
+
 #include "Game.hpp"
+#include "Sprite.hpp"
 
 namespace funkin::modding
 {
@@ -18,5 +19,10 @@ namespace funkin::modding
 
     LuaScript::~LuaScript(){
         lua_close(state);
+    }
+
+	bool LuaScript::call(const std::string& name, const std::vector<std::any>& args) const {
+    	lua_getglobal(state, name.c_str());
+    	return lua_pcall(state, 0, 0, LUA_MULTRET);
     }
 } // namespace funkin::modding

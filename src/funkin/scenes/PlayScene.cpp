@@ -37,6 +37,7 @@ namespace funkin::scenes {
 		auto song = data::Song::parseSong(songName);
 
 		const auto script = std::make_shared<modding::LuaScript>("assets/stages/desert/stage.lua");
+		script->call("createStage", {});
 		scripts.push_back(script);
 
 		henry = std::make_shared<Sprite>(300, 0);
