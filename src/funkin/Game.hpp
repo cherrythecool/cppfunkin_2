@@ -2,6 +2,7 @@
 
 #include "Scene.hpp"
 #include "Sprite.hpp"
+#include "debug/PerformanceTracker.hpp"
 
 namespace funkin {
 	class Game final {
@@ -14,5 +15,7 @@ namespace funkin {
 		static std::unique_ptr<Scene> scene;
 		static std::vector<std::shared_ptr<Camera>> cameras;
 		static std::shared_ptr<Camera> defaultCamera;
+
+		static objects::debug::PerformanceTracker performanceTracker;
 	};
 }

@@ -6,7 +6,7 @@ namespace funkin {
 	std::unique_ptr<Scene> Game::scene;
 	std::shared_ptr<Camera> Game::defaultCamera = std::make_shared<Camera>();;
 	std::vector<std::shared_ptr<Camera>> Game::cameras = {defaultCamera};
-
+	objects::debug::PerformanceTracker Game::performanceTracker = objects::debug::PerformanceTracker(10, 10);
 	void Game::start(std::unique_ptr<Scene> initialScene) {
 		scene = std::move(initialScene);
 		scene->create();
@@ -31,6 +31,9 @@ namespace funkin {
 			}
 			EndMode2D();
 		}
+
+		performanceTracker.update(GetFrameTime());
+		performanceTracker.draw(0, 0);
 
 	}
 

@@ -21,5 +21,8 @@ namespace funkin::data {
 	class Song {
 	public:
 		static SongData parseSong(const std::string &songName);
+		static SongData parseVSlice(const std::string &songName);
+		static SongData parseLegacy(const std::string &songName);
+
 	};
 }

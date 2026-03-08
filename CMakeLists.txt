@@ -83,6 +83,8 @@ add_executable(${PROJECT_NAME} src/main.cpp
         external/lua/lzio.c
         src/funkin/Camera.cpp
         src/funkin/Camera.hpp
+        src/funkin/objects/debug/PerformanceTracker.cpp
+        src/funkin/objects/debug/PerformanceTracker.hpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

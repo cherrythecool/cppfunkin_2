@@ -19,7 +19,6 @@ int main()
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 		funkin::Game::update(GetFrameTime());
-		DrawFPS(10, 10);
 		EndDrawing();
 	}
 	CloseAudioDevice();

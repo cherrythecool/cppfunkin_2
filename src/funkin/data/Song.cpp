@@ -1,12 +1,80 @@
 #include "Song.hpp"
 
 #include <fstream>
-#include  "nlohmann/json.hpp"
+
+#include "nlohmann/json.hpp"
+#include "raylib.h"
 
 using json = nlohmann::json;
 
 namespace funkin::data {
+
 	SongData Song::parseSong(const std::string &songName) {
+		const std::string songPath = "assets/songs/" + songName + "/";
+		if (FileExists((songPath + songName + "-metadata.json").c_str())) {
+			return parseVSlice(songName);
+		}
+		return parseLegacy(songName);
+	}
+
+	SongData Song::parseLegacy(const std::string &songName) {
+		const std::string path = "assets/songs/" + songName + "/" + songName + "-hard.json";
+		auto chart = std::ifstream(path);
+		auto parsedChart = json::parse(chart);
+		chart.close();
+
+		std::vector<NoteData> playerNotes = {};
+		std::vector<NoteData> opponentNotes = {};
+
+		nlohmann::json_abi_v3_12_0::json song;
+		bool isPsychV1 = false;
+
+		if (parsedChart["song"].contains("song")) {
+			song = parsedChart["song"];
+		} else {
+			song = parsedChart;
+			isPsychV1 = true;
+		}
+
+		for (auto sectionNotes : song["notes"]) {
+			for (auto sectionNote : sectionNotes["sectionNotes"]) {
+				if (isPsychV1) {
+					if (!sectionNotes["mustHitSection"]) {
+						if (sectionNote[1] > 3) {
+							sectionNote[1] = static_cast<int>(sectionNote[1]) % 4;
+						} else {
+							sectionNote[1] = static_cast<int>(sectionNote[1]) + 4;
+						}
+					}
+				}
+				bool playerNote = (sectionNote[1] < 4) ? static_cast<bool>(sectionNotes["mustHitSection"]) : (!sectionNotes["mustHitSection"]);
+				std::uint8_t lane = (static_cast<std::uint8_t>(sectionNote[1]) % 4) + (playerNote ? 0 : 4) % 4;
+				try {
+					auto noteData = NoteData{
+						.time = static_cast<float>(sectionNote[0]),
+						.lane = lane,
+						.length = static_cast<float>(sectionNote[2]),
+						.player = playerNote
+					};
+					if (playerNote) {
+						playerNotes.push_back(noteData);
+					} else {
+						opponentNotes.push_back(noteData);
+					}
+				}
+				catch (std::exception& e) {}
+			}
+		}
+
+		return {
+			.playerNotes = playerNotes,
+			.opponentNotes = opponentNotes,
+			.speed = song["speed"],
+			.bpm = song["bpm"]
+		};
+	}
+
+	SongData Song::parseVSlice(const std::string &songName) {
 		const std::string path = "assets/songs/" + songName + "/" + songName;
 
 		auto chart = std::ifstream(path + "-chart.json");

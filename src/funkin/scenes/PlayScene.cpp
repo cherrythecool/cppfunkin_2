@@ -22,11 +22,10 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "titular";
+		const std::string songName = "thearchy";
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
-		voices = LoadMusicStream(("assets/songs/" + songName + "/Voices-opponent.ogg").c_str());
-		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices-player.ogg").c_str());
+		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices.ogg").c_str());
 
 		std::vector tracks = {inst, voices, voicesPlayer};
 
@@ -56,6 +55,9 @@ namespace funkin::scenes {
 
 		const auto playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, song.speed, song.playerNotes, conductor);
 		playerField->camera = camHUD;
+		for (const auto& lane : playerField->members) {
+			lane->botplay = true;
+		}
 		add(playerField);
 	}
 
