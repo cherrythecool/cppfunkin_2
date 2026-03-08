@@ -1,5 +1,6 @@
 
 #include "PerformanceTracker.hpp"
+#include <cmath>
 
 namespace funkin::objects::debug {
 	PerformanceTracker::PerformanceTracker(const float x, const float y) : Object(x, y) {
