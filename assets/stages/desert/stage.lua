@@ -1,4 +1,4 @@
-function createStage()
+function createStage(a)
     print("hi lol")
 end
 

@@ -9,7 +9,7 @@ int main()
 	InitWindow(1280, 720, "Friday Night Funkin'");
 	InitAudioDevice();
 
-	SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()) * 2);
+	//SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()) * 2);
 
 
 	funkin::Game::start(std::make_unique<funkin::scenes::PlayScene>());
@@ -19,6 +19,7 @@ int main()
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 		funkin::Game::update(GetFrameTime());
+		DrawFPS(10, 10);
 		EndDrawing();
 	}
 	CloseAudioDevice();

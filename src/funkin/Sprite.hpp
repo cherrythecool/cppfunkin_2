@@ -26,6 +26,7 @@ namespace funkin {
 		Vector2 scale = Vector2One();
 
 		Rectangle source = {};
+		Rectangle dest = {};
 		Rectangle hitbox = {};
 
 		Texture texture = {};
@@ -33,6 +34,7 @@ namespace funkin {
 		game::AnimationController animation = game::AnimationController();
 
 		bool loadTexture(const std::string &path);
+		bool isOnScreen(float x, float y) const;
 
 		void updateHitbox();
 		void centerOffsets();

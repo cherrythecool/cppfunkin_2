@@ -44,7 +44,7 @@ namespace funkin {
 
 	void Sprite::centerOffsets() {
 		if (animation.currentAnimation != nullptr) {
-			auto [source, dest] = animation.currentAnimation->frames[animation.currentAnimation->currentFrame];
+			const auto dest = animation.currentAnimation->frames[animation.currentAnimation->currentFrame].dest;
 			offset.x = -(dest.width - hitbox.width) / 2;
 			offset.y = -(dest.height - hitbox.height) / 2;
 		}
@@ -55,13 +55,23 @@ namespace funkin {
 		animation.update(delta);
 	}
 
+	bool Sprite::isOnScreen(const float x, const float y) const {
+		const Vector2 pos = GetWorldToScreen2D(position + offset - origin*scale + Vector2{.x = x, .y = y} +
+			Vector2Scale(Vector2{.x = dest.width, .y = dest.height},0.5f), camera->camera);
+		return !(pos.y + (dest.height * scale.y) < 0 || pos.y > static_cast<float>(GetScreenHeight()) / camera->zoom ||
+				 pos.x + (dest.width * scale.x) < 0 || pos.x > static_cast<float>(GetScreenWidth()) / camera->zoom);
+	}
+
 
 	void Sprite::draw(const float x, const float y) {
 		Object::draw(x, y);
 		if (texture.width <= 0 || texture.height <= 0) {
 			return;
 		}
-		Rectangle dest = {.x = position.x + offset.x + x, .y = position.y + offset.y + y, .width = source.width * scale.x, .height = source.height * scale.y};
+		dest = {.x = position.x + offset.x + x, .y = position.y + offset.y + y, .width = source.width * scale.x, .height = source.height * scale.y};
+		if (!isOnScreen(x, y)) {
+			return;
+		}
 		if (animation.currentAnimation != nullptr) {
 			auto frame = animation.currentAnimation->frames[animation.currentAnimation->currentFrame];
 			source = frame.source;

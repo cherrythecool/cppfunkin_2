@@ -46,6 +46,8 @@ add_executable(${PROJECT_NAME} src/main.cpp
         src/funkin/data/animation/Animation.cpp
         src/funkin/modding/LuaScript.hpp
         src/funkin/modding/LuaScript.cpp
+        src/funkin/objects/Stage.hpp
+        src/funkin/objects/Stage.cpp
 
         external/lua/lapi.c
         external/lua/lauxlib.c

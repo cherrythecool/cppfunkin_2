@@ -4,6 +4,9 @@
 
 namespace funkin {
 	class Camera {
+
+		friend class Sprite;
+
 		public:
 			Camera();
 			~Camera();

@@ -36,7 +36,7 @@ namespace funkin::scenes {
 
 		auto song = data::Song::parseSong(songName);
 
-		const auto script = std::make_shared<modding::LuaScript>("assets/stages/desert/stage.lua");
+		/*const auto script = std::make_shared<modding::LuaScript>("assets/stages/desert/stage.lua");
 		script->call("createStage", {});
 		scripts.push_back(script);
 
@@ -45,7 +45,7 @@ namespace funkin::scenes {
 		henry->animation.loadSparrow("assets/characters/henry/spritesheet.xml");
 		henry->animation.addByPrefix("idle", "idle");
 		henry->animation.play("idle");
-		add(henry);
+		add(henry);*/
 
 		const auto opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, song.speed, song.opponentNotes,conductor);
 		for (const auto& lane : opponentField->members) {
@@ -63,7 +63,7 @@ namespace funkin::scenes {
 		Scene::update(delta);
 		conductor->update(delta);
 		if (IsKeyPressed(KEY_SPACE)) {
-			henry->animation.play("idle");
+			//henry->animation.play("idle");
 		}
 
 	}
