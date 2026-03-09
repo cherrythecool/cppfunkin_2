@@ -72,7 +72,7 @@ namespace funkin::objects::notes {
 				continue;
 			}
 
-			const float distance = note->strumTime - conductor->time;
+			const float distance = std::abs(note->strumTime - conductor->time);
 
 			if (distance > closestDistance) {
 				continue;
