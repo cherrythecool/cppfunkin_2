@@ -16,7 +16,7 @@ include_directories(
         "external/lua"
 )
 
-add_executable(${PROJECT_NAME} src/main.cpp
+add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/Group.hpp
         src/funkin/Object.hpp
         src/funkin/Object.cpp
