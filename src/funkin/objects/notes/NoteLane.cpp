@@ -1,7 +1,11 @@
 #include "NoteLane.hpp"
+
+#include <algorithm>
+
 #include "StrumNote.hpp"
 
 namespace funkin::objects::notes {
+
 	NoteLane::NoteLane(const float x, const float y, const std::vector<data::NoteData> &noteDatas, std::uint8_t lane, const std::shared_ptr<game::Conductor> &conductor) : Group(x, y) {
 		this->noteDatas = noteDatas;
 		this->conductor = conductor;
@@ -10,6 +14,7 @@ namespace funkin::objects::notes {
 		add(strum);
 		notes = std::make_shared<Group<Note>>();
 		add(notes);
+		std::ranges::sort(this->noteDatas, [](const data::NoteData a, const data::NoteData b) {return a.time < b.time;});
 	}
 
 	NoteLane::~NoteLane() {
