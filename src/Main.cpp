@@ -20,6 +20,7 @@ int main()
 		funkin::Game::update(GetFrameTime());
 		EndDrawing();
 	}
+	
 	CloseAudioDevice();
 	CloseWindow();
 
