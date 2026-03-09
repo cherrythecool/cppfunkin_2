@@ -13,6 +13,8 @@ namespace funkin::game {
 
 		std::vector<Music> tracks = {};
 
+		bool playing = false;
+
 		float time = 0.0f;
 		float bpm = 60.0f;
 		uint16_t step = 0;
@@ -21,13 +23,13 @@ namespace funkin::game {
 		float crochet = 60.0f / bpm;
 		float stepCrochet = crochet / 4.0f;
 
-		void start() const;
+		void start();
 
-		void stop() const;
+		void stop();
 
-		void pause() const;
+		void pause();
 
-		void resume() const;
+		void resume();
 
 		void update(float delta);
 

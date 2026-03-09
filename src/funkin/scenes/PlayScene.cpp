@@ -65,7 +65,12 @@ namespace funkin::scenes {
 		Scene::update(delta);
 		conductor->update(delta);
 		if (IsKeyPressed(KEY_SPACE)) {
-			//henry->animation.play("idle");
+			if (conductor->playing) {
+				conductor->pause();
+			}
+			else {
+				conductor->resume();
+			}
 		}
 
 	}

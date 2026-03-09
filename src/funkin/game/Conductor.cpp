@@ -10,44 +10,48 @@ namespace funkin::game {
 		tracks.clear();
 	}
 
-	void Conductor::start() const {
+	void Conductor::start() {
 		if (tracks.empty()) {
 			return;
 		}
 		for (const auto track: tracks) {
 			PlayMusicStream(track);
 		}
+		playing = true;
 	}
 
-	void Conductor::stop() const {
+	void Conductor::stop() {
 		if (tracks.empty()) {
 			return;
 		}
 		for (const auto track: tracks) {
 			StopMusicStream(track);
 		}
+		playing = false;
 	}
 
-	void Conductor::pause() const {
+	void Conductor::pause() {
 		if (tracks.empty()) {
 			return;
 		}
 		for (const auto track: tracks) {
 			PauseMusicStream(track);
 		}
+		playing = false;
 	}
 
-	void Conductor::resume() const {
+	void Conductor::resume() {
 		if (tracks.empty()) {
 			return;
 		}
 		for (const auto track: tracks) {
 			ResumeMusicStream(track);
 		}
+		playing = true;
 	}
 
 	void Conductor::update(const float delta) {
-		if (tracks.empty()) {
+		if (tracks.empty() || !playing) {
 			return;
 		}
 
