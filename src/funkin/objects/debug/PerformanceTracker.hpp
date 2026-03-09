@@ -1,6 +1,7 @@
 
 #pragma once
 #include "Object.hpp"
+#include <string>
 
 namespace funkin::objects::debug {
 	class PerformanceTracker : public Object {
@@ -12,6 +13,8 @@ namespace funkin::objects::debug {
 			void draw(float x, float y) override;
 
 			int fps = 0;
+			std::size_t rawMemory = 0;
+			std::string formattedMemory = "";
 		protected:
 			float updateClock = INFINITY;
 			float previousTime = 0.0f;

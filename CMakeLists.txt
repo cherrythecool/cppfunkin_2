@@ -12,6 +12,7 @@ include_directories(
         "src/funkin/modding"
         "src/funkin/objects"
         "src/funkin/scenes"
+        "src/funkin/utilities"
         "external/lua"
 )
 
@@ -48,7 +49,11 @@ add_executable(${PROJECT_NAME} src/main.cpp
         src/funkin/modding/LuaScript.cpp
         src/funkin/objects/Stage.hpp
         src/funkin/objects/Stage.cpp
-
+        src/funkin/utilities/CoolUtil.hpp
+        src/funkin/utilities/CoolUtil.cpp
+        src/funkin/utilities/ProcessInfo.hpp
+        src/funkin/utilities/ProcessInfo.cpp
+        
         external/lua/lapi.c
         external/lua/lauxlib.c
         external/lua/lbaselib.c
