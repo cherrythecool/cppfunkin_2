@@ -11,7 +11,6 @@ int main()
 
 	SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()) * 2);
 
-
 	funkin::Game::start(std::make_unique<funkin::scenes::PlayScene>());
 
 	while (!WindowShouldClose())
