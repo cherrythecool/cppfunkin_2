@@ -10,6 +10,8 @@ namespace funkin::objects::notes {
 		this->noteDatas = noteDatas;
 		this->conductor = conductor;
 		this->lane = lane;
+		sustains = std::make_shared<Group<Note>>();
+		add(sustains);
 		strum = std::make_shared<StrumNote>(lane);
 		add(strum);
 		notes = std::make_shared<Group<Note>>();
@@ -36,7 +38,8 @@ namespace funkin::objects::notes {
 				sustain->origin.x = sustain->source.width;
 				sustain->origin.y = 0;
 				sustain->scale.y = scale;
-				notes->add(sustain);
+				sustain->clipStrum = strum;
+				sustains->add(sustain);
 			}
 			notes->add(note);
 			noteDataIndex++;
@@ -53,7 +56,11 @@ namespace funkin::objects::notes {
 			}
 		}
 
-		for (const auto &note: notes->members) {
+		for(const auto& sustain : sustains->members){
+			sustain->updateY(conductor->time, 0);
+		}
+
+		for (const auto &note : notes->members) {
 			const float hitWindow = conductor->time - note->sustainLength;
 
 			if (hitWindow > note->strumTime + maxHitTime) {

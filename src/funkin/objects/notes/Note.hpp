@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "Sprite.hpp"
+#include "StrumNote.hpp"
 
 namespace funkin::objects::notes {
 	class Note : public Sprite {
@@ -16,8 +17,13 @@ namespace funkin::objects::notes {
 		std::uint8_t lane = 0;
 		bool sustainNote = false;
 
+		
 		static float pixelsPerMS;
+		
+		std::shared_ptr<StrumNote> clipStrum = nullptr;
 
 		void updateY(float songPosition, float targetY);
+
+		void draw(const float x, const float y) override;
 	};
 }

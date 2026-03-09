@@ -22,10 +22,11 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "thearchy";
+		const std::string songName = "bopeebo";
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
-		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices.ogg").c_str());
+		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices-player.ogg").c_str());
+		voices = LoadMusicStream(("assets/songs/" + songName + "/Voices-opponent.ogg").c_str());
 
 		std::vector tracks = {inst, voices, voicesPlayer};
 

@@ -33,6 +33,7 @@ namespace funkin::objects::notes {
 
 		float spawnTime = 2000.0f;
 
+		std::shared_ptr<Group<Note>> sustains;
 		std::shared_ptr<Group<Note>> notes;
 		std::shared_ptr<StrumNote> strum;
 		std::vector<std::shared_ptr<Note>> toInvalidate = {};

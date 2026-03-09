@@ -21,4 +21,8 @@ namespace funkin {
 		camera.rotation = angle;
 		BeginMode2D(camera);
 	}
+
+	Vector2 Camera::getScreenToWorld(Vector2 position){
+		return GetScreenToWorld2D(position, camera);
+	}
 } // funkin

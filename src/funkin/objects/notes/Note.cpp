@@ -1,10 +1,11 @@
 #include "Note.hpp"
+#include <iostream>
 
 namespace funkin::objects::notes {
 	float Note::pixelsPerMS = 0.45f;
 
-	Note::Note(const float strumTime, const std::uint8_t lane, const float speed, const bool sustainNote, const float sustainLength) : Sprite(
-		0.0f, 0.0f) {
+	Note::Note(const float strumTime, const std::uint8_t lane, const float speed, const bool sustainNote,
+			   const float sustainLength) : Sprite(0.0f, 0.0f) {
 		this->strumTime = strumTime;
 		this->lane = lane;
 		this->speed = speed;
@@ -28,4 +29,19 @@ namespace funkin::objects::notes {
 	void Note::updateY(const float songPosition, const float targetY) {
 		position.y = targetY - pixelsPerMS * (songPosition - strumTime) * speed;
 	}
-}
+
+	void Note::draw(const float x, const float y) {
+		const bool shouldScissor = sustainNote && !(clipStrum == nullptr);
+		if (shouldScissor) {
+			const int yScissor = static_cast<int>(
+					camera->getScreenToWorld(Vector2{.x = 0.0f, .y = clipStrum->position.y + y + (160 * 0.7f) + 20}).y);
+			BeginScissorMode(0, yScissor, GetRenderWidth(), GetRenderHeight() - yScissor);
+		}
+
+		Sprite::draw(x, y);
+
+		if (shouldScissor) {
+			EndScissorMode();
+		}
+	}
+} // namespace funkin::objects::notes
