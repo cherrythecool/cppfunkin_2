@@ -20,6 +20,8 @@ namespace funkin::game {
 			                 uint8_t> &indices = {});
 			void play(const std::string& name);
 			void update(float delta) const;
+
+			bool isFinished() const;
 		protected:
 			pugi::xml_document xmlDoc;
 			pugi::xml_parse_result xmlParseResult;

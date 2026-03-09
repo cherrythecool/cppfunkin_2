@@ -89,7 +89,7 @@ namespace funkin::objects::notes {
 
 		}
 
-		if (!pressed && !held) {
+		if (botplay ? strum->animation.isFinished() : !held) {
 			strum->animation.play("static");
 			strum->centerOffsets();
 		}

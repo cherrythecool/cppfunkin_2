@@ -81,4 +81,11 @@ namespace funkin::game {
 			currentAnimation->update(delta);
 		}
 	}
-}
+
+	bool AnimationController::isFinished() const {
+		if (currentAnimation != nullptr) {
+			return currentAnimation->currentFrame + 1 >= currentAnimation->frames.size();
+		}
+		return false;
+	}
+} // namespace funkin::game
