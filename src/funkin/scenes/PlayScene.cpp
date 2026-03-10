@@ -22,7 +22,7 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "thearchy";
+		const std::string songName = "bopeebo";
 		auto [playerNotes, opponentNotes, speed, bpm] = data::Song::parseSong(songName);
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
@@ -39,7 +39,7 @@ namespace funkin::scenes {
 		for (const auto& lane : opponentField->members) {
 			lane->botplay = true;
 			lane->onNoteHit.append([](const auto& note) {
-				std::cout << note << std::endl;
+				//std::cout << note << std::endl;
 			});
 		}
 		opponentField->camera = camHUD;
@@ -50,7 +50,7 @@ namespace funkin::scenes {
 		for (const auto& lane : playerField->members) {
 			lane->botplay = true;
 			lane->onNoteHit.append([](const auto& note) {
-				std::cout << note << std::endl;
+				//std::cout << note << std::endl;
 			});
 		}
 		add(playerField);
