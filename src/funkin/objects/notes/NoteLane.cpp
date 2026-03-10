@@ -39,6 +39,7 @@ namespace funkin::objects::notes {
 				sustain->origin.y = 0;
 				sustain->scale.y = scale;
 				sustain->clipStrum = strum;
+				sustain->parentNote = note;
 				sustains->add(sustain);
 			}
 			notes->add(note);
@@ -58,10 +59,26 @@ namespace funkin::objects::notes {
 
 		for(const auto& sustain : sustains->members){
 			sustain->updateY(conductor->time, 0);
+			const float hitWindow = conductor->time;
+
+			const float _minHitTime = botplay ? 0 : minHitTime;
+
+			float minHitWindow = hitWindow + _minHitTime;
+			if (sustain->wasHit) {
+				minHitWindow += sustain->sustainLength;
+			}
+			const float maxHitWindow = hitWindow - maxHitTime - sustain->sustainLength;
+			const bool hittable = sustain->strumTime <= minHitWindow && sustain->strumTime >= maxHitWindow;
+
+			if ((held || botplay) && hittable && sustain->parentNote->wasHit) {
+				strum->animation.play("confirm");
+				strum->centerOffsets();
+				sustain->wasHit = true;
+			}
 		}
 
 		for (const auto &note : notes->members) {
-			const float hitWindow = conductor->time - note->sustainLength;
+			const float hitWindow = conductor->time;
 
 			if (hitWindow > note->strumTime + maxHitTime) {
 				toInvalidate.push_back(note);
@@ -89,9 +106,8 @@ namespace funkin::objects::notes {
 			if (pressed || botplay) {
 				strum->animation.play("confirm");
 				strum->centerOffsets();
-				if (!note->sustainNote) {
-					toInvalidate.push_back(note);
-				}
+				note->wasHit = true;
+				toInvalidate.push_back(note);
 			}
 
 		}

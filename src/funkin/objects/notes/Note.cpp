@@ -28,6 +28,9 @@ namespace funkin::objects::notes {
 
 	void Note::updateY(const float songPosition, const float targetY) {
 		position.y = targetY - pixelsPerMS * (songPosition - strumTime) * speed;
+		if (parentNote != nullptr) {
+			position.y += parentNote->dest.height / 2.0f;
+		}
 	}
 
 	void Note::draw(const float x, const float y) {

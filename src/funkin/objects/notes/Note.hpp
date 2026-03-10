@@ -16,11 +16,13 @@ namespace funkin::objects::notes {
 		float sustainLength = 0.0f;
 		std::uint8_t lane = 0;
 		bool sustainNote = false;
+		bool wasHit = false;
 
 		
 		static float pixelsPerMS;
 		
 		std::shared_ptr<StrumNote> clipStrum = nullptr;
+		std::shared_ptr<Note> parentNote = nullptr;
 
 		void updateY(float songPosition, float targetY);
 

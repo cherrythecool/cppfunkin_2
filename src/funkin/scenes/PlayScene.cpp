@@ -56,9 +56,6 @@ namespace funkin::scenes {
 
 		const auto playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, song.speed, song.playerNotes, conductor);
 		playerField->camera = camHUD;
-		for (const auto& lane : playerField->members) {
-			lane->botplay = true;
-		}
 		add(playerField);
 	}
 
