@@ -1,9 +1,9 @@
 #include "CoolUtil.hpp"
-#include <raylib.h>
 #include <array>
+#include <raylib.h>
 
 namespace funkin::utilities {
-	std::string CoolUtil::formatBytes(std::size_t bytes, std::uint8_t precision) {
+	std::string CoolUtil::formatBytes(std::size_t bytes, const std::uint8_t precision) {
 		const std::array<std::string, 5> suffix = {"B", "KB", "MB", "GB", "TB"};
 
 		int i = 0;

@@ -27,7 +27,7 @@ namespace funkin::objects::debug {
 	}
 
 	void PerformanceTracker::draw(const float x, const float y) {
-		DrawText(TextFormat("%i FPS\n%s", fps, formattedMemory), position.x + x, position.y + y, 20, GREEN);
+		DrawText(TextFormat("%i FPS\n%s", fps, formattedMemory.c_str()), static_cast<int>(position.x + x), static_cast<int>(position.y + y), 20, GREEN);
 	}
 
 } // namespace funkin::objects::debug

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
+
 
 namespace funkin::utilities
 {
