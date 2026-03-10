@@ -34,10 +34,10 @@ namespace funkin::objects::notes {
 	}
 
 	void Note::draw(const float x, const float y) {
+		// ReSharper disable once CppRedundantComplexityInComparison
 		const bool shouldScissor = sustainNote && !(clipStrum == nullptr);
 		if (shouldScissor) {
-			const int yScissor = static_cast<int>(
-					camera->getScreenToWorld(Vector2{.x = 0.0f, .y = clipStrum->position.y + y + (160 * 0.7f) + 20}).y);
+			const int yScissor = static_cast<int>(camera->getScreenToWorld(Vector2{.x = 0.0f, .y = clipStrum->position.y + y + 160 * 0.7f + 18}).y);
 			BeginScissorMode(0, yScissor, GetRenderWidth(), GetRenderHeight() - yScissor);
 		}
 

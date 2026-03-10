@@ -103,6 +103,9 @@ target_link_libraries(${PROJECT_NAME} nlohmann_json)
 add_subdirectory(external/pugixml)
 target_link_libraries(${PROJECT_NAME} pugixml)
 
+add_subdirectory(external/eventpp)
+target_link_libraries(${PROJECT_NAME} eventpp)
+
 include_directories(external/luaaa)
 
 add_dependencies(${PROJECT_NAME} copy_assets)

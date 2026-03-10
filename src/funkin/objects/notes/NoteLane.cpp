@@ -107,6 +107,7 @@ namespace funkin::objects::notes {
 				strum->animation.play("confirm");
 				strum->centerOffsets();
 				note->wasHit = true;
+				onNoteHit(note);
 				toInvalidate.push_back(note);
 			}
 
