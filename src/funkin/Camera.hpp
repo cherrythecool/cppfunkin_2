@@ -18,7 +18,7 @@ namespace funkin {
 			Vector2 position = Vector2Zero();
 
 			void begin();
-			Vector2 getScreenToWorld(Vector2 position);
+			Vector2 getScreenToWorld(Vector2 pos) const;
 	private:
 			Camera2D camera{};
 	};

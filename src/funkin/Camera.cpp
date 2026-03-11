@@ -22,7 +22,7 @@ namespace funkin {
 		BeginMode2D(camera);
 	}
 
-	Vector2 Camera::getScreenToWorld(Vector2 position){
-		return GetScreenToWorld2D(position, camera);
+	Vector2 Camera::getScreenToWorld(const Vector2 pos) const {
+		return GetScreenToWorld2D(pos, camera);
 	}
 } // funkin

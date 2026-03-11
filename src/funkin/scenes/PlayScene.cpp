@@ -22,11 +22,11 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "bopeebo";
+		const std::string songName = "titular";
 		auto [playerNotes, opponentNotes, speed, bpm] = data::Song::parseSong(songName);
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
-		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices.ogg").c_str());
+		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices-player.ogg").c_str());
 		voices = LoadMusicStream(("assets/songs/" + songName + "/Voices-opponent.ogg").c_str());
 
 		std::vector tracks = {inst, voices, voicesPlayer};
@@ -34,6 +34,18 @@ namespace funkin::scenes {
 		conductor = std::make_shared<Conductor>(tracks);
 		conductor->bpm = bpm;
 		conductor->start();
+
+		henry = std::make_shared<Sprite>(300, 0);
+		henry->loadTexture("assets/characters/henry/spritesheet.png");
+		henry->animation.loadSparrow("assets/characters/henry/spritesheet.xml");
+		henry->animation.addByPrefix("idle", "idalt");
+		henry->animation.addByPrefix("singUP", "upalt");
+		henry->animation.addByPrefix("singRIGHT", "rightalt");
+		henry->animation.addByPrefix("singDOWN", "downalt");
+		henry->animation.addByPrefix("singLEFT", "leftalt");
+
+		henry->animation.play("idle");
+		add(henry);
 
 		const auto opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, speed, opponentNotes,conductor);
 		for (const auto& lane : opponentField->members) {
@@ -48,12 +60,16 @@ namespace funkin::scenes {
 		const auto playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, speed, playerNotes, conductor);
 		playerField->camera = camHUD;
 		for (const auto& lane : playerField->members) {
-			lane->botplay = true;
 			lane->onNoteHit.append([](const auto& note) {
-				//std::cout << note << std::endl;
+				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
+				henry->animation.play(anims[note->lane % 4]);
 			});
 		}
 		add(playerField);
+
+		conductor->onBeatHit.append([](const auto& beat) {
+			henry->animation.play("idle");
+		});
 	}
 
 	void PlayScene::update(const float delta) {

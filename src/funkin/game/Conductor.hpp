@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "eventpp/callbacklist.h"
 #include "raylib.h"
 
 namespace funkin::game {
@@ -17,11 +18,14 @@ namespace funkin::game {
 
 		float time = 0.0f;
 		float bpm = 60.0f;
-		uint16_t step = 0;
 		uint16_t beat = 0;
+		uint16_t step = 0;
 
 		float crochet = 60.0f / bpm;
 		float stepCrochet = crochet / 4.0f;
+
+		eventpp::CallbackList<void(uint16_t)> onBeatHit;
+		eventpp::CallbackList<void(uint16_t)> onStepHit;
 
 		void start();
 

@@ -1,5 +1,7 @@
 #include "Conductor.hpp"
 
+#include <iostream>
+
 namespace funkin::game {
 	Conductor::Conductor(const std::vector<Music> &tracks) {
 		this->tracks = tracks;
@@ -18,6 +20,7 @@ namespace funkin::game {
 			PlayMusicStream(track);
 		}
 		playing = true;
+		update(0);
 	}
 
 	void Conductor::stop() {
@@ -69,7 +72,7 @@ namespace funkin::game {
 		}
 		time = (lastMixPos + lastMixTimer) * 1000.0f;
 
-		crochet = 60.0f / bpm;
+		crochet = 60.0f / bpm * 1000.0f;
 		stepCrochet = crochet / 4.0f;
 
 		const int oldStep = step;
@@ -84,6 +87,7 @@ namespace funkin::game {
 
 		if (oldBeat != beat) {
 			beatHit();
+			std::cout << beat << std::endl;
 		}
 	}
 
@@ -102,8 +106,10 @@ namespace funkin::game {
 	}
 
 	void Conductor::stepHit() const {
+		onStepHit(step);
 	}
 
 	void Conductor::beatHit() const {
+		onBeatHit(beat);
 	}
 }
