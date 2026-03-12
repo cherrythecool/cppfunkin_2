@@ -1,7 +1,9 @@
 
 #pragma once
-#include "Object.hpp"
+#include <cstdint>
+
 #include <string>
+#include "Object.hpp"
 
 namespace funkin::objects::debug {
 	class PerformanceTracker : public Object {

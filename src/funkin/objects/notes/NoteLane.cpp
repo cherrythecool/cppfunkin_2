@@ -32,8 +32,8 @@ namespace funkin::objects::notes {
 			const auto note = std::make_shared<Note>(data.time, data.lane, speed);
 			if (noteDatas[noteDataIndex].length > 0) {
 				const auto sustain = std::make_shared<Note>(data.time, data.lane, speed, true, data.length);
-				const float scale = floorf(data.length / (conductor->stepCrochet) * Note::pixelsPerMS * speed);
 				sustain->source = Rectangle{.x = static_cast<float>(data.lane) * 73, .y = 0, .width = 36, .height = 210};
+				const float scale = (data.length * Note::pixelsPerMS) / sustain->source.height * speed;
 				sustain->position.x += sustain->source.width * 2.0f;
 				sustain->origin.x = sustain->source.width;
 				sustain->origin.y = 0;

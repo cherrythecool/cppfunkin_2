@@ -25,4 +25,8 @@ namespace funkin {
 	Vector2 Camera::getScreenToWorld(const Vector2 pos) const {
 		return GetScreenToWorld2D(pos, camera);
 	}
+
+	Vector2 Camera::getWorldToScreen(const Vector2 pos) const {
+		return GetWorldToScreen2D(pos, camera);
+	}
 } // funkin

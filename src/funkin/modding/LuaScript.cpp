@@ -15,9 +15,11 @@ namespace funkin::modding
 		luaSprite.fun("update", &Sprite::update);
 		luaaa::LuaModule(state).fun("add", &Game::add);
         luaL_dofile(state, path.c_str());
+		call("onCreate", {});
     }
 
     LuaScript::~LuaScript(){
+		call("onDestory", {});
         lua_close(state);
     }
 

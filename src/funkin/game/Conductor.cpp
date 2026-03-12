@@ -87,7 +87,6 @@ namespace funkin::game {
 
 		if (oldBeat != beat) {
 			beatHit();
-			std::cout << beat << std::endl;
 		}
 	}
 

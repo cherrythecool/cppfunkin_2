@@ -22,7 +22,7 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "titular";
+		const std::string songName = "thorns remnants mix";
 		auto [playerNotes, opponentNotes, speed, bpm] = data::Song::parseSong(songName);
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
@@ -33,6 +33,7 @@ namespace funkin::scenes {
 
 		conductor = std::make_shared<Conductor>(tracks);
 		conductor->bpm = bpm;
+		std::cout << bpm << std::endl;
 		conductor->start();
 
 		henry = std::make_shared<Sprite>(300, 0);
@@ -45,14 +46,11 @@ namespace funkin::scenes {
 		henry->animation.addByPrefix("singLEFT", "leftalt");
 
 		henry->animation.play("idle");
-		add(henry);
+		//add(henry);
 
 		const auto opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, speed, opponentNotes,conductor);
 		for (const auto& lane : opponentField->members) {
 			lane->botplay = true;
-			lane->onNoteHit.append([](const auto& note) {
-				//std::cout << note << std::endl;
-			});
 		}
 		opponentField->camera = camHUD;
 		add(opponentField);
@@ -60,16 +58,18 @@ namespace funkin::scenes {
 		const auto playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, speed, playerNotes, conductor);
 		playerField->camera = camHUD;
 		for (const auto& lane : playerField->members) {
-			lane->onNoteHit.append([](const auto& note) {
+			/*lane->onNoteHit.append([](const auto& note) {
 				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
 				henry->animation.play(anims[note->lane % 4]);
-			});
+			});*/
 		}
 		add(playerField);
 
-		conductor->onBeatHit.append([](const auto& beat) {
-			henry->animation.play("idle");
-		});
+		/*conductor->onBeatHit.append([](const auto& beat) {
+			if(henry->animation.isFinished()){
+				henry->animation.play("idle");
+			}
+		});*/
 	}
 
 	void PlayScene::update(const float delta) {
