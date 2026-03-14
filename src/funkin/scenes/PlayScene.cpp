@@ -46,7 +46,7 @@ namespace funkin::scenes {
 		henry->animation.addByPrefix("singLEFT", "leftalt");
 
 		henry->animation.play("idle");
-		//add(henry);
+		add(henry);
 
 		const auto opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, speed, opponentNotes,conductor);
 		for (const auto& lane : opponentField->members) {
@@ -58,6 +58,7 @@ namespace funkin::scenes {
 		const auto playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, speed, playerNotes, conductor);
 		playerField->camera = camHUD;
 		for (const auto& lane : playerField->members) {
+			lane->botplay = true;
 			/*lane->onNoteHit.append([](const auto& note) {
 				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
 				henry->animation.play(anims[note->lane % 4]);

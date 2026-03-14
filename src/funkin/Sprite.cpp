@@ -56,12 +56,9 @@ namespace funkin {
 	}
 
 	bool Sprite::isOnScreen(const float x, const float y) const {
-		// TODO: fix math
-		return true;
-		const Vector2 pos = camera->getScreenToWorld(position + offset - origin*scale + Vector2{.x = x, .y = y} +
-			Vector2Scale(Vector2{.x = dest.width, .y = dest.height},0.5f));
-		return !(pos.y + (dest.height * scale.y) < 0 || pos.y > static_cast<float>(GetScreenHeight()) / camera->zoom ||
-				 pos.x + (dest.width * scale.x) < 0 || pos.x > static_cast<float>(GetScreenWidth()) / camera->zoom);
+		const auto pos = camera->getWorldToScreen(Vector2{dest.x, dest.y});
+		return pos.x + dest.width > 0 && pos.x < static_cast<float>(GetRenderWidth()) && pos.y + dest.height > 0 &&
+			   pos.y < static_cast<float>(GetRenderHeight());
 	}
 
 
