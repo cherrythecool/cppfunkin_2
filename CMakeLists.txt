@@ -109,6 +109,11 @@ target_link_libraries(${PROJECT_NAME} pugixml)
 add_subdirectory(external/eventpp)
 target_link_libraries(${PROJECT_NAME} eventpp)
 
+option(TRACY_ENABLE "" ON)
+option(TRACY_ON_DEMAND "" ON)
+add_subdirectory(external/tracy)  # target: TracyClient or alias Tracy::TracyClient
+target_link_libraries(${PROJECT_NAME} Tracy::TracyClient)
+
 include_directories(external/luaaa)
 
 add_dependencies(${PROJECT_NAME} copy_assets)

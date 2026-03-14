@@ -45,6 +45,8 @@ namespace funkin {
 
 		void draw(float x, float y) override;
 		void update(float delta) override;
+
+		static void clearTextureCache();
 	protected:
 		static std::unordered_map<std::string, Texture> textureCache;
 	};

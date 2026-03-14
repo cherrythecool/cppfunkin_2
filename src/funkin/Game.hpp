@@ -8,6 +8,7 @@ namespace funkin {
 	class Game final {
 	public:
 		static void start(std::unique_ptr<Scene> initialScene);
+		static void switchScene(std::unique_ptr<Scene> newScene);
 		static void add(Sprite* object);
 
 		static void update(float delta);

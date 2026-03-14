@@ -86,4 +86,7 @@ namespace funkin {
 			DrawRectanglePro(Rectangle{.x = hitbox.x + position.x + x, .y = hitbox.y + position.y + y, .width = hitbox.width, .height = hitbox.height }, origin, angle, ColorAlpha(hitboxColor, 0.5f * alpha));
 		}
 	}
+	void Sprite::clearTextureCache() {
+		textureCache.clear();
+	}
 } // funkin

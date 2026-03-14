@@ -4,11 +4,23 @@
 
 namespace funkin {
 	std::unique_ptr<Scene> Game::scene;
-	std::shared_ptr<Camera> Game::defaultCamera = std::make_shared<Camera>();;
+	std::shared_ptr<Camera> Game::defaultCamera = std::make_shared<Camera>();
 	std::vector<std::shared_ptr<Camera>> Game::cameras = {defaultCamera};
 	objects::debug::PerformanceTracker Game::performanceTracker = objects::debug::PerformanceTracker(10, 10);
+
 	void Game::start(std::unique_ptr<Scene> initialScene) {
 		scene = std::move(initialScene);
+		scene->create();
+	}
+
+	void Game::switchScene(std::unique_ptr<Scene> newScene) {
+		scene->alive = false;
+		scene->initialized = false;
+		Sprite::clearTextureCache();
+		cameras.clear();
+		defaultCamera = std::make_shared<Camera>();
+		cameras = {defaultCamera};
+		scene = std::move(newScene);
 		scene->create();
 	}
 

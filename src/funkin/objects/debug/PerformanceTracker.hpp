@@ -16,7 +16,7 @@ namespace funkin::objects::debug {
 
 			int fps = 0;
 			std::size_t rawMemory = 0;
-			std::string formattedMemory = "";
+			std::string formattedMemory;
 		protected:
 			float updateClock = INFINITY;
 			float previousTime = 0.0f;

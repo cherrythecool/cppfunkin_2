@@ -10,7 +10,9 @@
 namespace funkin::scenes {
 	PlayScene::PlayScene() = default;
 
-	PlayScene::~PlayScene() = default;
+	PlayScene::~PlayScene() {
+		scripts.clear();
+	};
 
 	void PlayScene::create() {
 		Scene::create();
@@ -20,7 +22,7 @@ namespace funkin::scenes {
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "thorns remnants mix";
+		const std::string songName = "titular";
 		auto [playerNotes, opponentNotes, speed, bpm] = data::Song::parseSong(songName);
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
@@ -36,6 +38,7 @@ namespace funkin::scenes {
 
 
 		stage = std::make_shared<objects::Stage>("desert");
+		scripts.push_back(stage->script);
 		add(stage);
 
 		const auto opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, speed, opponentNotes,conductor);
