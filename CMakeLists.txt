@@ -53,7 +53,7 @@ add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/utilities/CoolUtil.cpp
         src/funkin/utilities/ProcessInfo.hpp
         src/funkin/utilities/ProcessInfo.cpp
-        
+
         external/lua/lapi.c
         external/lua/lauxlib.c
         external/lua/lbaselib.c
@@ -93,6 +93,8 @@ add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/objects/Character.cpp
         src/funkin/objects/Character.hpp
         src/funkin/utilities/Macros.h
+        src/funkin/modding/WasmSandbox.cpp
+        src/funkin/modding/WasmSandbox.hpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
@@ -108,6 +110,26 @@ target_link_libraries(${PROJECT_NAME} pugixml)
 
 add_subdirectory(external/eventpp)
 target_link_libraries(${PROJECT_NAME} eventpp)
+
+set (WAMR_BUILD_PLATFORM "linux")
+set (WAMR_BUILD_TARGET "X86_64")
+set (WAMR_BUILD_INTERP 1)
+set (WAMR_BUILD_FAST_INTERP 1)
+set (WAMR_BUILD_AOT 1)
+set (WAMR_BUILD_LIBC_BUILTIN 1)
+set (WAMR_BUILD_LIBC_WASI 1)
+set (WAMR_BUILD_SIMD 1)
+set (WAMR_ROOT_DIR external/wasm-micro-runtime)
+
+include (${WAMR_ROOT_DIR}/build-scripts/runtime_lib.cmake)
+add_library(vmlib ${WAMR_RUNTIME_LIB_SOURCE})
+
+# include bh_read_file.h
+include (${SHARED_DIR}/utils/uncommon/shared_uncommon.cmake)
+
+target_sources (${PROJECT_NAME} PRIVATE ${UNCOMMON_SHARED_SOURCE})
+
+target_link_libraries (${PROJECT_NAME} vmlib -lm)
 
 option(TRACY_ENABLE "" ON)
 option(TRACY_ON_DEMAND "" ON)

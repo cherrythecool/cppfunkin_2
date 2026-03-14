@@ -1,8 +1,6 @@
 #include "PlayScene.hpp"
+#include "Game.hpp"
 #include "raylib.h"
-
-#include "funkin/Game.hpp"
-#include <iostream>
 
 int main()
 {
