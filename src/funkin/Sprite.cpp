@@ -68,9 +68,6 @@ namespace funkin {
 			return;
 		}
 		dest = {.x = position.x + offset.x + x, .y = position.y + offset.y + y, .width = source.width * scale.x, .height = source.height * scale.y};
-		if (!isOnScreen(x, y)) {
-			return;
-		}
 		if (animation.currentAnimation != nullptr) {
 			auto frame = animation.currentAnimation->frames[animation.currentAnimation->currentFrame];
 			source = frame.source;
@@ -78,6 +75,11 @@ namespace funkin {
 			dest.height = frame.source.height * scale.y;
 			dest.x += frame.dest.x * scale.x;
 			dest.y += frame.dest.y * scale.y;
+		}
+		dest.x += -camera->target.x * (scrollFactor.x - 1.0f);
+		dest.y += -camera->target.y * (scrollFactor.y - 1.0f);
+		if (!isOnScreen(x, y)) {
+			return;
 		}
 		DrawTexturePro(texture, source, dest, origin, angle, ColorAlpha(color, alpha));
 		if (drawHitbox) {

@@ -90,6 +90,9 @@ add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/Camera.hpp
         src/funkin/objects/debug/PerformanceTracker.cpp
         src/funkin/objects/debug/PerformanceTracker.hpp
+        src/funkin/objects/Character.cpp
+        src/funkin/objects/Character.hpp
+        src/funkin/utilities/Macros.h
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

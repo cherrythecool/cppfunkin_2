@@ -10,7 +10,7 @@ namespace funkin::modding {
 			explicit LuaScript(const std::string& path);
             ~LuaScript();
 
-    		bool call(const std::string& name, const std::vector<std::any>& args) const;
+    		bool call(const std::string& name, const std::vector<std::any>& args) const; // NOLINT(*-use-nodiscard)
         
         private:
             lua_State* state; 

@@ -5,6 +5,7 @@
 
 #include "AnimationController.hpp"
 #include "Object.hpp"
+#include "Macros.h"
 
 namespace funkin {
 	class Sprite : public Object {
@@ -24,6 +25,9 @@ namespace funkin {
 		Vector2 origin = Vector2Zero();
 		Vector2 offset = Vector2Zero();
 		Vector2 scale = Vector2One();
+		Vector2 scrollFactor = Vector2One();
+
+		GETTERSETTER(Vector2, ScrollFactor, scrollFactor)
 
 		Rectangle source = {};
 		Rectangle dest = {};
@@ -41,9 +45,6 @@ namespace funkin {
 
 		void draw(float x, float y) override;
 		void update(float delta) override;
-
-		void add();
-
 	protected:
 		static std::unordered_map<std::string, Texture> textureCache;
 	};

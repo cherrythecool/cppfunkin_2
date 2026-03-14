@@ -1,11 +1,10 @@
 #include "Stage.hpp"
 
 namespace funkin::objects{
-    Stage::Stage() : Group<Sprite>(){
-
+    Stage::Stage(const std::string& stageName) {
+		this->stageName = stageName;
+    	script = std::make_shared<modding::LuaScript>("assets/stages/" + stageName + "/stage.lua");
     }
 
-    Stage::~Stage() {
-        
-    }
+    Stage::~Stage() = default;
 }

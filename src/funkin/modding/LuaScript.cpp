@@ -13,12 +13,16 @@ namespace funkin::modding
 		luaSprite.fun("loadTexture", &Sprite::loadTexture);
 		luaSprite.fun("draw", &Sprite::draw);
 		luaSprite.fun("update", &Sprite::update);
+    	luaSprite.set("scrollFactor", &Sprite::setScrollFactor);
+    	luaSprite.get("scrollFactor", &Sprite::getScrollFactor);
 		luaaa::LuaModule(state).fun("add", &Game::add);
         luaL_dofile(state, path.c_str());
+		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onCreate", {});
     }
 
-    LuaScript::~LuaScript(){
+    LuaScript::~LuaScript() {
+		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onDestory", {});
         lua_close(state);
     }
