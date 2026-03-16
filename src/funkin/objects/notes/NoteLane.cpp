@@ -58,8 +58,11 @@ namespace funkin::objects::notes {
 		}
 
 		for(const auto& sustain : sustains->members){
-			sustain->updateY(conductor->time, 0);
 			const float hitWindow = conductor->time;
+			if (hitWindow > sustain->strumTime + maxHitTime + sustain->sustainLength) {
+				toInvalidate.push_back(sustain);
+			}
+			sustain->updateY(conductor->time, 0);
 
 			const float _minHitTime = botplay ? 0 : minHitTime;
 
@@ -119,7 +122,12 @@ namespace funkin::objects::notes {
 		}
 
 		for (const auto& note : toInvalidate) {
-			notes->remove(note);
+			if (note->sustainNote) {
+				sustains->remove(note);
+			}
+			else {
+				notes->remove(note);
+			}
 		}
 		toInvalidate.clear();
 	}
