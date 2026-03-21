@@ -3,13 +3,17 @@
 #include "Scene.hpp"
 #include "Sprite.hpp"
 #include "debug/PerformanceTracker.hpp"
+#include "notes/PlayField.hpp"
 
 namespace funkin {
 	class Game final {
 	public:
 		static void start(std::unique_ptr<Scene> initialScene);
 		static void switchScene(std::unique_ptr<Scene> newScene);
-		static void add(Sprite* object);
+		template<typename T = Object>
+		static void add(T* object) {
+			scene->add(std::shared_ptr<Object>(object));
+		}
 
 		static void update(float delta);
 

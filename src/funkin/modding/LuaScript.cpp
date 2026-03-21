@@ -2,52 +2,32 @@
 
 #include "Game.hpp"
 #include "Sprite.hpp"
+#include "notes/PlayField.hpp"
 
 namespace funkin::modding
 {
     LuaScript::LuaScript(const std::string& path){
-        state = luaL_newstate();
-        luaL_openlibs(state);
-		luaaa::LuaClass<Sprite> luaSprite(state, "Sprite");
-		luaSprite.ctor<float, float>();
-		luaSprite.fun("loadTexture", &Sprite::loadTexture);
-		luaSprite.fun("draw", &Sprite::draw);
-		luaSprite.fun("update", &Sprite::update);
-    	luaSprite.set("scrollFactor", &Sprite::setScrollFactor);
-    	luaSprite.get("scrollFactor", &Sprite::getScrollFactor);
-		luaaa::LuaModule(state).fun("add", &Game::add);
-        luaL_dofile(state, path.c_str());
+        state.open_libraries(sol::lib::base, sol::lib::package);
+
+    	sol::usertype<Sprite> lua_Sprite = state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>());
+    	lua_Sprite["loadTexture"] = &Sprite::loadTexture;
+    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
+
+    	sol::usertype<objects::notes::PlayField> lua_PlayField = state.new_usertype<objects::notes::PlayField>("PlayField", sol::constructors<objects::notes::PlayField(), objects::notes::PlayField(float), objects::notes::PlayField(float, float)>());
+
+
+		state.script_file(path);
 		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onCreate", {});
     }
 
     LuaScript::~LuaScript() {
 		// ReSharper disable once CppExpressionWithoutSideEffects
-		call("onDestory", {});
+		call("onDestroy", {});
         lua_close(state);
     }
 
 	bool LuaScript::call(const std::string& name, const std::vector<std::any>& args) const {
-    	lua_getglobal(state, name.c_str());
-    	for (const auto& arg : args) {
-    		if (arg.type() == typeid(std::nullptr_t)) {
-				lua_pushnil(state);
-    		}
-    		else if (arg.type() == typeid(LUA_INTEGER)) {
-    			lua_pushinteger(state, std::any_cast<LUA_INTEGER>(arg));
-    		}
-    		else if (arg.type() == typeid(LUA_NUMBER)) {
-    			lua_pushnumber(state, std::any_cast<LUA_NUMBER>(arg));
-    		}
-    		else if (arg.type() == typeid(bool)) {
-    			lua_pushboolean(state, std::any_cast<bool>(arg));
-    		}
-    		else if (arg.type() == typeid(std::string)) {
-    			lua_pushstring(state, std::any_cast<std::string>(arg).c_str());
-    		}
-    	}
-		const auto result = lua_pcall(state, args.size(), 1, 0);
-    	lua_pop(state, 1);
-    	return result == LUA_OK;
+    	return true;
     }
 } // namespace funkin::modding

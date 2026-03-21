@@ -22,3 +22,6 @@
 [submodule "external/wasm-micro-runtime"]
 	path = external/wasm-micro-runtime
 	url = https://github.com/bytecodealliance/wasm-micro-runtime
+[submodule "external/sol2"]
+	path = external/sol2
+	url = https://github.com/halx99/sol2

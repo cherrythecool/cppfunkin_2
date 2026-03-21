@@ -49,8 +49,4 @@ namespace funkin {
 
 	}
 
-	void Game::add(Sprite* object) {
-		scene->add(std::shared_ptr<Sprite>(object));
-
-	}
 }

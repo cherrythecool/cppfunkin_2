@@ -4,13 +4,11 @@
 
 namespace funkin::objects::notes {
 	class PlayField : public Group<NoteLane> {
-	public:
-		PlayField(float x, float y, std::uint8_t keyCount, float speed,
-		          const std::vector<data::NoteData> &noteDatas,
-		          const std::shared_ptr<game::Conductor> &conductor);
+		public:
+			explicit PlayField(float x = 0.0f, float y = 0.0f, std::uint8_t keyCount = 4, float speed = 1.0f,
+		          const std::vector<data::NoteData> &noteDatas = {},
+		          const std::shared_ptr<game::Conductor> &conductor = nullptr);
 
-
-
-		~PlayField() override;
+			~PlayField() override;
 	};
 }

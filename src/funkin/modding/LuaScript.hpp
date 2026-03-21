@@ -2,7 +2,8 @@
 
 #include <any>
 #include <string>
-#include "luaaa.hpp"
+#define LUA_VERSION_NUM 505
+#include "sol/sol.hpp"
 
 namespace funkin::modding {
     class LuaScript {
@@ -13,7 +14,7 @@ namespace funkin::modding {
     		bool call(const std::string& name, const std::vector<std::any>& args) const; // NOLINT(*-use-nodiscard)
         
         private:
-            lua_State* state; 
+            sol::state state; 
         
     };
 } // namespace funkin::modding

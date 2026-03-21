@@ -111,6 +111,9 @@ target_link_libraries(${PROJECT_NAME} pugixml)
 add_subdirectory(external/eventpp)
 target_link_libraries(${PROJECT_NAME} eventpp)
 
+add_subdirectory(external/sol2)
+target_link_libraries(${PROJECT_NAME} sol2)
+
 if(WIN32)
 cmake_policy(SET CMP0169 OLD)
 target_link_libraries(${PROJECT_NAME} ntdll)

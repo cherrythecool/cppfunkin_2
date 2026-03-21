@@ -18,14 +18,14 @@ namespace funkin::scenes {
 	void PlayScene::create() {
 		Scene::create();
 
-		modding::WasmSandbox("assets/mymod.wasm");
+		scripts.push_back(std::make_shared<modding::LuaScript>("assets/scripts/testscript.lua"));
 
 		camHUD = std::make_shared<Camera>();
 		Game::cameras.push_back(camHUD);
 
 		Game::defaultCamera->zoom = 0.7f;
 
-		const std::string songName = "titular";
+		const std::string songName = "thorns remnants mix";
 		auto [playerNotes, opponentNotes, speed, bpm] = data::Song::parseSong(songName);
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
