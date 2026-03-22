@@ -55,11 +55,5 @@ namespace funkin::modding
     LuaScript::~LuaScript() {
 		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onDestroy");
-        lua_close(state);
-    }
-
-	bool LuaScript::call(const std::string& name) const {
-    	state[name]();
-    	return true;
     }
 } // namespace funkin::modding

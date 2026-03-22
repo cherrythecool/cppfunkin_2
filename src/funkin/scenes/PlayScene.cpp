@@ -59,12 +59,15 @@ namespace funkin::scenes {
 
 		script->set("playerField", playerField);
 
-		for (const auto s : scripts) {
+		for (const auto& s : scripts) {
 			s->call("onCreatePost");
 		}
 	}
 
 	void PlayScene::update(const float delta) {
+		for (const auto& s : scripts) {
+			s->call("onUpdate", delta);
+		}
 		Scene::update(delta);
 		conductor->update(delta);
 		if (IsKeyPressed(KEY_SPACE)) {
@@ -75,6 +78,8 @@ namespace funkin::scenes {
 				conductor->resume();
 			}
 		}
-
+		for (const auto& s : scripts) {
+			s->call("onUpdatePost", delta);
+		}
 	}
 }
