@@ -9,4 +9,5 @@ function onCreatePost()
     local pf = PlayField.new(100, 150, 4, song.speed, song.opponentNotes, conductor)
     pf.botplay = true
     add(pf)
+
 end
