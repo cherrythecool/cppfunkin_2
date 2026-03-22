@@ -34,9 +34,21 @@ namespace funkin::scenes {
 		Music voices = {};
 		Music voicesPlayer = {};
 
-	protected:
 		void create() override;
-
 		void update(float delta) override;
+
+    	template<typename... Args>
+		void callOnScripts(const std::string& name, Args... args){
+			for(const auto& script : scripts){
+				script->call(name, args...);
+			}
+		}
+
+    	template<typename T>
+		void setOnScripts(const std::string& name, T type){
+			for(const auto& script : scripts){
+				script->set(name, type);
+			}
+		}
 	};
 }

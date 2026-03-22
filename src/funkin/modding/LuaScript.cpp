@@ -7,7 +7,20 @@
 namespace funkin::modding
 {
     LuaScript::LuaScript(const std::string& path){
-        state.open_libraries(sol::lib::base, sol::lib::package);
+        state.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
+
+		sol::usertype<Game> lua_Game = state.new_usertype<Game>("Game");
+		state.new_usertype<Game>("Game",
+			"defaultCamera", sol::var(std::ref(Game::defaultCamera))
+		);
+
+    	state.new_usertype<Camera>("Camera",
+			sol::constructors<Camera()>(),
+			"zoom", &Camera::zoom,
+			"angle", &Camera::angle,
+			"target", &Camera::target,
+			"position", &Camera::position
+		);
 
     	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
     	state["parseSong"] = &data::Song::parseSong;
@@ -17,6 +30,7 @@ namespace funkin::modding
 
     	sol::usertype<data::Song> lua_Song = state.new_usertype<data::Song>("Song");
     	lua_Song["parseSong"] = &data::Song::parseSong;
+
 
     	state.new_usertype<data::SongData>("SongData",
 			sol::constructors<data::SongData()>(),

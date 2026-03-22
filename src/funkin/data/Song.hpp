@@ -16,6 +16,7 @@ namespace funkin::data {
 		std::vector<NoteData> opponentNotes;
 		float speed;
 		float bpm;
+		std::string stage;
 	} SongData;
 
 	class Song {
