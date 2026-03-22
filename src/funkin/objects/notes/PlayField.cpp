@@ -4,7 +4,7 @@ namespace funkin::objects::notes {
 	PlayField::PlayField(const float x, const float y, const std::uint8_t keyCount, const float speed,
 	                     const std::vector<data::NoteData> &noteDatas,
 	                     const std::shared_ptr<game::Conductor> &conductor) : Group(x, y) {
-		std::vector<KeyboardKey> binds = {KEY_D, KEY_F, KEY_J, KEY_K};
+		const std::vector binds = {KEY_D, KEY_F, KEY_J, KEY_K};
 		for (std::uint8_t i = 0; i < keyCount; i++) {
 			std::vector<data::NoteData> noteDatasToAdd = {};
 			for (auto noteData: noteDatas) {
@@ -20,4 +20,15 @@ namespace funkin::objects::notes {
 	}
 
 	PlayField::~PlayField() = default;
-}
+
+	bool PlayField::getBotplay() const {
+		return botplay;
+	}
+
+	void PlayField::setBotplay(const bool value) {
+		botplay = value;
+		for (const auto lane : members) {
+			lane->botplay = value;
+		}
+	}
+} // namespace funkin::objects::notes

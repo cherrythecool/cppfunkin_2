@@ -9,25 +9,57 @@ namespace funkin::modding
     LuaScript::LuaScript(const std::string& path){
         state.open_libraries(sol::lib::base, sol::lib::package);
 
+    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
+    	state["parseSong"] = &data::Song::parseSong;
+
     	sol::usertype<Sprite> lua_Sprite = state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>());
     	lua_Sprite["loadTexture"] = &Sprite::loadTexture;
-    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
 
-    	sol::usertype<objects::notes::PlayField> lua_PlayField = state.new_usertype<objects::notes::PlayField>("PlayField", sol::constructors<objects::notes::PlayField(), objects::notes::PlayField(float), objects::notes::PlayField(float, float)>());
+    	sol::usertype<data::Song> lua_Song = state.new_usertype<data::Song>("Song");
+    	lua_Song["parseSong"] = &data::Song::parseSong;
+
+    	state.new_usertype<data::SongData>("SongData",
+			sol::constructors<data::SongData()>(),
+			"speed", &data::SongData::speed,
+			"bpm", &data::SongData::bpm,
+			"playerNotes", &data::SongData::playerNotes,
+			"opponentNotes", &data::SongData::opponentNotes
+		);
+
+    	state.new_usertype<Vector2>("Vector2",
+			sol::constructors<Vector2()>(),
+			"x", &Vector2::x,
+			"y", &Vector2::y
+		);
+
+    	sol::usertype<objects::notes::PlayField> lua_PlayField = state.new_usertype<objects::notes::PlayField>(
+    		"PlayField",
+    		sol::constructors<objects::notes::PlayField(),
+    		objects::notes::PlayField(float),
+    		objects::notes::PlayField(float, float),
+    		objects::notes::PlayField(float, float, std::uint8_t),
+    		objects::notes::PlayField(float, float, std::uint8_t, float),
+    		objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>),
+    		objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>, std::shared_ptr<game::Conductor>)
+    		>());
+    	lua_PlayField["botplay"] = sol::property(&objects::notes::PlayField::getBotplay, &objects::notes::PlayField::setBotplay);
+    	lua_PlayField["camera"] = sol::property(&objects::notes::PlayField::camera);
+    	lua_PlayField["position"] = sol::property(&objects::notes::PlayField::position);
 
 
 		state.script_file(path);
 		// ReSharper disable once CppExpressionWithoutSideEffects
-		call("onCreate", {});
+		call("onCreate");
     }
 
     LuaScript::~LuaScript() {
 		// ReSharper disable once CppExpressionWithoutSideEffects
-		call("onDestroy", {});
+		call("onDestroy");
         lua_close(state);
     }
 
-	bool LuaScript::call(const std::string& name, const std::vector<std::any>& args) const {
+	bool LuaScript::call(const std::string& name) const {
+    	state[name]();
     	return true;
     }
 } // namespace funkin::modding

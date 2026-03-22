@@ -10,5 +10,10 @@ namespace funkin::objects::notes {
 		          const std::shared_ptr<game::Conductor> &conductor = nullptr);
 
 			~PlayField() override;
+
+			bool getBotplay() const;
+			void setBotplay(bool value);
+		protected:
+			bool botplay = false;
 	};
 }

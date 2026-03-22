@@ -5,6 +5,7 @@
 #include "LuaScript.hpp"
 #include "Scene.hpp"
 #include "Stage.hpp"
+#include "notes/PlayField.hpp"
 
 namespace funkin::scenes {
 	using namespace game;
@@ -25,6 +26,9 @@ namespace funkin::scenes {
 		std::shared_ptr<objects::Character> dad = nullptr;
 		std::shared_ptr<objects::Character> boyfriend = nullptr;
 		std::shared_ptr<objects::Character> girlfriend = nullptr;
+
+		std::shared_ptr<objects::notes::PlayField> playerField = nullptr;
+		std::shared_ptr<objects::notes::PlayField> opponentField = nullptr;
 
 		Music inst = {};
 		Music voices = {};
