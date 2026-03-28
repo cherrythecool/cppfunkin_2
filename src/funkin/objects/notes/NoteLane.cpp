@@ -36,7 +36,7 @@ namespace funkin::objects::notes {
 				const float scale = (data.length * Note::pixelsPerMS) / sustain->source.height * speed;
 				sustain->position.x += sustain->source.width * 2.0f;
 				sustain->origin.x = sustain->source.width;
-				sustain->origin.y = 0;
+			sustain->origin.y = 0;
 				sustain->scale.y = scale;
 				sustain->clipStrum = strum;
 				sustain->parentNote = note;
@@ -110,7 +110,7 @@ namespace funkin::objects::notes {
 				strum->animation.play("confirm");
 				strum->centerOffsets();
 				note->wasHit = true;
-				//onNoteHit(note);
+				onNoteHit(note);
 				toInvalidate.push_back(note);
 			}
 

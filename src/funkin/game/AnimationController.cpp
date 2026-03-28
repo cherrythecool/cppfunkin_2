@@ -65,7 +65,7 @@ namespace funkin::game {
 				}});
 		}
 
-		animations[name] = std::make_shared<data::animation::Animation>(frames, framerate, looped);
+		animations[name] = std::make_shared<data::animation::Animation>(frames, name, framerate, looped);
 		animationOffsets[name] = Vector2Zero();
 	}
 

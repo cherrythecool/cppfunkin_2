@@ -75,6 +75,9 @@ namespace funkin {
 			dest.height = frame.source.height * scale.y;
 			dest.x += frame.dest.x * scale.x;
 			dest.y += frame.dest.y * scale.y;
+			auto animationOffset = animation.animationOffsets[animation.currentAnimation->name];
+			dest.x -= animationOffset.x;
+			dest.y -= animationOffset.y;
 		}
 		dest.x += -camera->target.x * (scrollFactor.x - 1.0f);
 		dest.y += -camera->target.y * (scrollFactor.y - 1.0f);

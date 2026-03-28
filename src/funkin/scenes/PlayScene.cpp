@@ -35,21 +35,42 @@ namespace funkin::scenes {
 		boyfriend = std::make_shared<objects::Character>(0, 0, songData.player, objects::BOYFRIEND);
 		scripts.push_back(boyfriend->script);
 
-		stage = std::make_shared<objects::Stage>(songData.stage, boyfriend);
+		dad = std::make_shared<objects::Character>(0, 0, songData.opponent, objects::DAD);
+		scripts.push_back(dad->script);
+
+		stage = std::make_shared<objects::Stage>(songData.stage, boyfriend, dad);
 		add(stage);
 		scripts.push_back(stage->script);
-
 
 		opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, songData.speed, songData.opponentNotes, conductor);
 		opponentField->setBotplay(true);
 		opponentField->camera = camHUD;
 		add(opponentField);
 
+		for (const auto& lane : opponentField->members) {
+			lane->onNoteHit.append([this](const auto& note) {
+				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
+				this->dad->animation.play(anims[note->lane % 4]);
+			});
+		}
+
+
 		playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, songData.speed, songData.playerNotes, conductor);
 		playerField->camera = camHUD;
 		add(playerField);
 
+		for (const auto& lane : playerField->members) {
+			lane->onNoteHit.append([this](const auto& note) {
+				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
+				this->boyfriend->animation.play(anims[note->lane % 4]);
+			});
+		}
+
 		conductor->start();
+		conductor->onBeatHit.append([this](const auto& beat) {
+			this->boyfriend->animation.play("idle");
+			this->dad->animation.play("idle");
+		});
 
 		callOnScripts("onCreatePost");
 	}

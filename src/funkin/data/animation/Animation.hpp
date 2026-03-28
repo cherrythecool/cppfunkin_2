@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 #include "Frame.hpp"
 
@@ -8,12 +9,13 @@ namespace funkin::data::animation {
 	class Animation {
 		friend class AnimationController;
 		public:
-			explicit Animation(const std::vector<Frame> &frames, float framerate = 24.0f, bool looped = false);
+			explicit Animation(const std::vector<Frame> &frames, const std::string &name, float framerate = 24.0f, bool looped = false);
 			~Animation();
 
 			std::vector<Frame> frames = {};
 			float framerate = 24.0f;
 			bool looped = false;
+			std::string name;
 
 			std::uint8_t currentFrame = 0;
 

@@ -20,7 +20,7 @@ namespace funkin::game {
 			PlayMusicStream(track);
 		}
 		playing = true;
-		update(0);
+		update(0.0f);
 	}
 
 	void Conductor::stop() {

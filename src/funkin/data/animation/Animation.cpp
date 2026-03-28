@@ -1,7 +1,8 @@
 #include "Animation.hpp"
 
 namespace funkin::data::animation {
-	Animation::Animation(const std::vector<Frame> &frames, const float framerate, const bool looped) {
+	Animation::Animation(const std::vector<Frame> &frames, const std::string &name, const float framerate, const bool looped) {
+		this->name = name;
 		this->frames = frames;
 		this->framerate = framerate;
 		this->looped = looped;

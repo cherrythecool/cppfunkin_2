@@ -27,7 +27,7 @@ namespace funkin {
 		Vector2 scale = Vector2One();
 		Vector2 scrollFactor = Vector2One();
 
-		GETTERSETTER(Vector2, ScrollFactor, scrollFactor)
+		//GETTERSETTER(Vector2, ScrollFactor, scrollFactor)
 
 		Rectangle source = {};
 		Rectangle dest = {};

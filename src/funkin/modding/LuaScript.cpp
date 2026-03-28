@@ -27,7 +27,10 @@ namespace funkin::modding {
 								   &Camera::angle, "target", &Camera::target, "position", &Camera::position);
 
 		state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>(),
-								   "loadTexture", &Sprite::loadTexture, "animation", &Sprite::animation);
+								   "loadTexture", &Sprite::loadTexture,
+								   "animation", &Sprite::animation,
+								   "position", &Sprite::position,
+								   "scrollFactor", &Sprite::scrollFactor);
 
 		state.new_usertype<objects::Character>(
 				"Character", sol::constructors<objects::Character(float, float, std::string, objects::CharacterType)>(),

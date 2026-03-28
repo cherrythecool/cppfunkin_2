@@ -9,7 +9,7 @@
 namespace funkin::objects {
 	class Stage : public Group<Sprite> {
 	public:
-		explicit Stage(const std::string &stageName, const std::shared_ptr<Character>& boyfriend = nullptr);
+		explicit Stage(const std::string &stageName, const std::shared_ptr<Character>& boyfriend = nullptr, const std::shared_ptr<Character>& dad = nullptr);
 		~Stage() override;
 
 		std::shared_ptr<modding::LuaScript> script = nullptr;
