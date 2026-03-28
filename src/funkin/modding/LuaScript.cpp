@@ -2,6 +2,7 @@
 
 #include "Game.hpp"
 #include "Sprite.hpp"
+#include "Stage.hpp"
 #include "notes/PlayField.hpp"
 
 namespace funkin::modding
@@ -9,10 +10,20 @@ namespace funkin::modding
     LuaScript::LuaScript(const std::string& path){
         state.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 
-		sol::usertype<Game> lua_Game = state.new_usertype<Game>("Game");
+    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
+    	state["parseSong"] = &data::Song::parseSong;
+
 		state.new_usertype<Game>("Game",
 			"defaultCamera", sol::var(std::ref(Game::defaultCamera))
 		);
+
+
+    	sol::usertype<objects::Stage> lua_Stage = state.new_usertype<objects::Stage>("Stage",
+    		sol::constructors<objects::Stage(std::string)>(),
+			"stageName", &objects::Stage::stageName
+		);
+
+    	lua_Stage["add"] = &objects::Stage::add;
 
     	state.new_usertype<Camera>("Camera",
 			sol::constructors<Camera()>(),
@@ -22,8 +33,6 @@ namespace funkin::modding
 			"position", &Camera::position
 		);
 
-    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
-    	state["parseSong"] = &data::Song::parseSong;
 
     	sol::usertype<Sprite> lua_Sprite = state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>());
     	lua_Sprite["loadTexture"] = &Sprite::loadTexture;
@@ -62,12 +71,10 @@ namespace funkin::modding
 
 
 		state.script_file(path);
-		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onCreate");
     }
 
     LuaScript::~LuaScript() {
-		// ReSharper disable once CppExpressionWithoutSideEffects
 		call("onDestroy");
     }
 } // namespace funkin::modding

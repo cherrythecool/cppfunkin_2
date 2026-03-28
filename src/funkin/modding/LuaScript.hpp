@@ -8,7 +8,7 @@ namespace funkin::modding {
     class LuaScript {
         public:
     		explicit LuaScript(const std::string& path);
-    	~LuaScript();
+    		~LuaScript();
 
     		template<typename... Args>
     		void call(const std::string& name, Args... args) {

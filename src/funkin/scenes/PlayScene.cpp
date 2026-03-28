@@ -5,7 +5,6 @@
 
 #include "Game.hpp"
 #include "Sprite.hpp"
-#include "WasmSandbox.hpp"
 #include "objects/notes/PlayField.hpp"
 
 namespace funkin::scenes {
