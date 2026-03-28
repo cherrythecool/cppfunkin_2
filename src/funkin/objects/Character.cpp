@@ -12,6 +12,7 @@ namespace funkin::objects {
 		animation.loadSparrow(basePath + "/spritesheet.xml");
 
 		script = std::make_shared<modding::LuaScript>(basePath + "/character.lua");
+		script->call("onCreateCharacter", this);
 	}
 
 	Character::~Character() = default;

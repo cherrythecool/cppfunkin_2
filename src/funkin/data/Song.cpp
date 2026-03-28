@@ -71,7 +71,8 @@ namespace funkin::data {
 			.opponentNotes = opponentNotes,
 			.speed = song["speed"],
 			.bpm = song["bpm"],
-			.stage = song["stage"]
+			.stage = song["stage"],
+			.player = song["player1"]
 		};
 	}
 
@@ -112,7 +113,8 @@ namespace funkin::data {
 			.opponentNotes = opponentNotes,
 			.speed = parsedChart["scrollSpeed"]["hard"],
 			.bpm = parsedMeta["timeChanges"][0]["bpm"],
-			.stage = parsedMeta["playData"]["stage"]
+			.stage = parsedMeta["playData"]["stage"],
+			.player = parsedMeta["playData"]["characters"]["player"]
 		};
 	}
 }

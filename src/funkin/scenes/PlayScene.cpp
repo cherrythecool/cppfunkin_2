@@ -33,13 +33,13 @@ namespace funkin::scenes {
 		conductor->bpm = songData.bpm;
 
 		stage = std::make_shared<objects::Stage>(songData.stage);
+		add(stage);
 		scripts.push_back(stage->script);
-
+		
 		opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, songData.speed, songData.opponentNotes, conductor);
 		opponentField->setBotplay(true);
 		opponentField->camera = camHUD;
 		add(opponentField);
-
 
 		playerField = std::make_shared<objects::notes::PlayField>(static_cast<float>(GetRenderWidth()) / 2 + 100.0f, 50.0f, 4, songData.speed, songData.playerNotes, conductor);
 		playerField->camera = camHUD;

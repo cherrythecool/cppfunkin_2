@@ -4,6 +4,7 @@
 #include "Sprite.hpp"
 #include "Stage.hpp"
 #include "notes/PlayField.hpp"
+#include "objects/Character.hpp"
 
 namespace funkin::modding
 {
@@ -20,10 +21,9 @@ namespace funkin::modding
 
     	sol::usertype<objects::Stage> lua_Stage = state.new_usertype<objects::Stage>("Stage",
     		sol::constructors<objects::Stage(std::string)>(),
-			"stageName", &objects::Stage::stageName
+			"stageName", &objects::Stage::stageName,
+			"add", &objects::Stage::add
 		);
-
-    	lua_Stage["add"] = &objects::Stage::add;
 
     	state.new_usertype<Camera>("Camera",
 			sol::constructors<Camera()>(),

@@ -1,4 +1,5 @@
 #include "Stage.hpp"
+#include <iostream>
 
 namespace funkin::objects{
     Stage::Stage(const std::string& stageName) {

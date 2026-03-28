@@ -17,6 +17,7 @@ namespace funkin::data {
 		float speed;
 		float bpm;
 		std::string stage;
+		std::string player;
 	} SongData;
 
 	class Song {

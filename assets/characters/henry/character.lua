@@ -1,3 +1,3 @@
 function onCreateCharacter(character)
-    character.animation:add()
+    --character.animation:add()
 end
