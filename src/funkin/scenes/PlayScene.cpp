@@ -32,12 +32,13 @@ namespace funkin::scenes {
 		conductor = std::make_shared<Conductor>(tracks);
 		conductor->bpm = songData.bpm;
 
-		stage = std::make_shared<objects::Stage>(songData.stage);
+		boyfriend = std::make_shared<objects::Character>(0, 0, songData.player, objects::BOYFRIEND);
+		scripts.push_back(boyfriend->script);
+
+		stage = std::make_shared<objects::Stage>(songData.stage, boyfriend);
 		add(stage);
 		scripts.push_back(stage->script);
 
-		boyfriend = std::make_shared<objects::Character>(0, 0, songData.player, objects::BOYFRIEND);
-		add(boyfriend);
 
 		opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, songData.speed, songData.opponentNotes, conductor);
 		opponentField->setBotplay(true);

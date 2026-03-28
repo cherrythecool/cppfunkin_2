@@ -1,6 +1,6 @@
 function onCreateStage(stage)
     Game.defaultCamera.zoom = 0.7
-    
+
     local sky = Sprite.new(-643, -313)
     sky:loadTexture("assets/stages/desert/skylayer.png")
     stage:add(sky)
@@ -32,4 +32,7 @@ function onCreateStage(stage)
     local car = Sprite.new(-62, 221)
     car:loadTexture("assets/stages/desert/policecar.png")
     stage:add(car)
+
+    boyfriend.position.x = 1200
+    stage:add(boyfriend)
 end

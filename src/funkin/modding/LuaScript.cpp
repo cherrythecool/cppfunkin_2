@@ -1,6 +1,9 @@
 #include "LuaScript.hpp"
 
+#include <utility>
+
 #include "Game.hpp"
+#include "PlayScene.hpp"
 #include "Sprite.hpp"
 #include "Stage.hpp"
 #include "game/AnimationController.hpp"
@@ -16,10 +19,9 @@ namespace funkin::modding {
 
 		state.new_usertype<Game>("Game", "defaultCamera", sol::var(std::ref(Game::defaultCamera)));
 
-
 		sol::usertype<objects::Stage> lua_Stage = state.new_usertype<objects::Stage>(
 				"Stage", sol::constructors<objects::Stage(std::string)>(), "stageName", &objects::Stage::stageName,
-				"add", &objects::Stage::add);
+				"add", sol::overload(&objects::Stage::add<Sprite>, &objects::Stage::add<objects::Character>));
 
 		state.new_usertype<Camera>("Camera", sol::constructors<Camera()>(), "zoom", &Camera::zoom, "angle",
 								   &Camera::angle, "target", &Camera::target, "position", &Camera::position);
@@ -29,17 +31,22 @@ namespace funkin::modding {
 
 		state.new_usertype<objects::Character>(
 				"Character", sol::constructors<objects::Character(float, float, std::string, objects::CharacterType)>(),
-				"loadTexture", &objects::Character::loadTexture, "animation", &objects::Character::animation);
+				"loadTexture", &objects::Character::loadTexture,
+				"animation", &objects::Character::animation,
+				"position", &objects::Character::position);
 
 		state.new_usertype<game::AnimationController>(
 				"AnimationController", sol::constructors<game::AnimationController()>(), "addByPrefix",
 				sol::overload(
 						[](game::AnimationController &animationController, const std::string &name, const std::string &prefix,
-						  std::uint8_t framerate, bool looped, sol::table indices) {
-							animationController.addByPrefix(name, prefix, framerate, looped, tableToVector<std::uint8_t>(indices));
+							const std::uint8_t framerate, const bool looped, sol::table indices) {
+							animationController.addByPrefix(name, prefix, framerate, looped, tableToVector<std::uint8_t>(std::move(indices)));
 						},
 						&game::AnimationController::addByPrefix),
-				"loadSparrow", &game::AnimationController::loadSparrow, 
+				"addOffset", [](game::AnimationController &animationController, const std::string &name, const float x, const float y) {
+					animationController.addOffset(name, x, y);
+				},
+				"loadSparrow", &game::AnimationController::loadSparrow,
 				"play", &game::AnimationController::play,
 				"isFinished", &game::AnimationController::isFinished);
 

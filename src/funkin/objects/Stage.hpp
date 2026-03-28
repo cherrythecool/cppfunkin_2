@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Character.hpp"
 #include "Game.hpp"
 #include "Group.hpp"
 #include "LuaScript.hpp"
@@ -8,14 +9,15 @@
 namespace funkin::objects {
 	class Stage : public Group<Sprite> {
 	public:
-		explicit Stage(const std::string &stageName);
+		explicit Stage(const std::string &stageName, const std::shared_ptr<Character>& boyfriend = nullptr);
 		~Stage() override;
 
 		std::shared_ptr<modding::LuaScript> script = nullptr;
 		std::string stageName;
 
-		void add(Sprite* object) {
-			Group<Sprite>::add(std::shared_ptr<Sprite>(object));
+		template<typename T = Sprite>
+		void add(T* object) {
+			Group::add(std::shared_ptr<T>(object));
 		}
 	};
 

@@ -66,6 +66,15 @@ namespace funkin::game {
 		}
 
 		animations[name] = std::make_shared<data::animation::Animation>(frames, framerate, looped);
+		animationOffsets[name] = Vector2Zero();
+	}
+
+	void AnimationController::addOffset(const std::string& name, const float x, const float y) {
+		addOffset(name, Vector2{.x = x, .y = y});
+	}
+
+	void AnimationController::addOffset(const std::string& name, const Vector2 offset) {
+		animationOffsets[name] = offset;
 	}
 
 	void AnimationController::play(const std::string& name) {
