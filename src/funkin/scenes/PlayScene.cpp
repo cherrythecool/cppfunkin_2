@@ -35,7 +35,10 @@ namespace funkin::scenes {
 		stage = std::make_shared<objects::Stage>(songData.stage);
 		add(stage);
 		scripts.push_back(stage->script);
-		
+
+		boyfriend = std::make_shared<objects::Character>(0, 0, songData.player, objects::BOYFRIEND);
+		add(boyfriend);
+
 		opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, songData.speed, songData.opponentNotes, conductor);
 		opponentField->setBotplay(true);
 		opponentField->camera = camHUD;

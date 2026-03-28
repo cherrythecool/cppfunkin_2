@@ -3,78 +3,74 @@
 #include "Game.hpp"
 #include "Sprite.hpp"
 #include "Stage.hpp"
+#include "game/AnimationController.hpp"
 #include "notes/PlayField.hpp"
 #include "objects/Character.hpp"
 
-namespace funkin::modding
-{
-    LuaScript::LuaScript(const std::string& path){
-        state.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
+namespace funkin::modding {
+	LuaScript::LuaScript(const std::string &path) {
+		state.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 
-    	state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
-    	state["parseSong"] = &data::Song::parseSong;
+		state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);
+		state["parseSong"] = &data::Song::parseSong;
 
-		state.new_usertype<Game>("Game",
-			"defaultCamera", sol::var(std::ref(Game::defaultCamera))
-		);
+		state.new_usertype<Game>("Game", "defaultCamera", sol::var(std::ref(Game::defaultCamera)));
 
 
-    	sol::usertype<objects::Stage> lua_Stage = state.new_usertype<objects::Stage>("Stage",
-    		sol::constructors<objects::Stage(std::string)>(),
-			"stageName", &objects::Stage::stageName,
-			"add", &objects::Stage::add
-		);
+		sol::usertype<objects::Stage> lua_Stage = state.new_usertype<objects::Stage>(
+				"Stage", sol::constructors<objects::Stage(std::string)>(), "stageName", &objects::Stage::stageName,
+				"add", &objects::Stage::add);
 
-    	state.new_usertype<Camera>("Camera",
-			sol::constructors<Camera()>(),
-			"zoom", &Camera::zoom,
-			"angle", &Camera::angle,
-			"target", &Camera::target,
-			"position", &Camera::position
-		);
+		state.new_usertype<Camera>("Camera", sol::constructors<Camera()>(), "zoom", &Camera::zoom, "angle",
+								   &Camera::angle, "target", &Camera::target, "position", &Camera::position);
+
+		state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>(),
+								   "loadTexture", &Sprite::loadTexture, "animation", &Sprite::animation);
+
+		state.new_usertype<objects::Character>(
+				"Character", sol::constructors<objects::Character(float, float, std::string, objects::CharacterType)>(),
+				"loadTexture", &objects::Character::loadTexture, "animation", &objects::Character::animation);
+
+		state.new_usertype<game::AnimationController>(
+				"AnimationController", sol::constructors<game::AnimationController()>(), "addByPrefix",
+				sol::overload(
+						[](game::AnimationController &animationController, const std::string &name, const std::string &prefix,
+						  std::uint8_t framerate, bool looped, sol::table indices) {
+							animationController.addByPrefix(name, prefix, framerate, looped, tableToVector<std::uint8_t>(indices));
+						},
+						&game::AnimationController::addByPrefix),
+				"loadSparrow", &game::AnimationController::loadSparrow, 
+				"play", &game::AnimationController::play,
+				"isFinished", &game::AnimationController::isFinished);
+
+		sol::usertype<data::Song> lua_Song = state.new_usertype<data::Song>("Song");
+		lua_Song["parseSong"] = &data::Song::parseSong;
 
 
-    	sol::usertype<Sprite> lua_Sprite = state.new_usertype<Sprite>("Sprite", sol::constructors<Sprite(), Sprite(float), Sprite(float, float)>());
-    	lua_Sprite["loadTexture"] = &Sprite::loadTexture;
+		state.new_usertype<data::SongData>("SongData", sol::constructors<data::SongData()>(), "speed",
+										   &data::SongData::speed, "bpm", &data::SongData::bpm, "playerNotes",
+										   &data::SongData::playerNotes, "opponentNotes",
+										   &data::SongData::opponentNotes);
 
-    	sol::usertype<data::Song> lua_Song = state.new_usertype<data::Song>("Song");
-    	lua_Song["parseSong"] = &data::Song::parseSong;
+		state.new_usertype<Vector2>("Vector2", sol::constructors<Vector2()>(), "x", &Vector2::x, "y", &Vector2::y);
 
-
-    	state.new_usertype<data::SongData>("SongData",
-			sol::constructors<data::SongData()>(),
-			"speed", &data::SongData::speed,
-			"bpm", &data::SongData::bpm,
-			"playerNotes", &data::SongData::playerNotes,
-			"opponentNotes", &data::SongData::opponentNotes
-		);
-
-    	state.new_usertype<Vector2>("Vector2",
-			sol::constructors<Vector2()>(),
-			"x", &Vector2::x,
-			"y", &Vector2::y
-		);
-
-    	sol::usertype<objects::notes::PlayField> lua_PlayField = state.new_usertype<objects::notes::PlayField>(
-    		"PlayField",
-    		sol::constructors<objects::notes::PlayField(),
-    		objects::notes::PlayField(float),
-    		objects::notes::PlayField(float, float),
-    		objects::notes::PlayField(float, float, std::uint8_t),
-    		objects::notes::PlayField(float, float, std::uint8_t, float),
-    		objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>),
-    		objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>, std::shared_ptr<game::Conductor>)
-    		>());
-    	lua_PlayField["botplay"] = sol::property(&objects::notes::PlayField::getBotplay, &objects::notes::PlayField::setBotplay);
-    	lua_PlayField["camera"] = sol::property(&objects::notes::PlayField::camera);
-    	lua_PlayField["position"] = sol::property(&objects::notes::PlayField::position);
-
+		sol::usertype<objects::notes::PlayField> lua_PlayField = state.new_usertype<objects::notes::PlayField>(
+				"PlayField",
+				sol::constructors<
+						objects::notes::PlayField(), objects::notes::PlayField(float),
+						objects::notes::PlayField(float, float), objects::notes::PlayField(float, float, std::uint8_t),
+						objects::notes::PlayField(float, float, std::uint8_t, float),
+						objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>),
+						objects::notes::PlayField(float, float, std::uint8_t, float, std::vector<data::NoteData>,
+												  std::shared_ptr<game::Conductor>)>());
+		lua_PlayField["botplay"] =
+				sol::property(&objects::notes::PlayField::getBotplay, &objects::notes::PlayField::setBotplay);
+		lua_PlayField["camera"] = sol::property(&objects::notes::PlayField::camera);
+		lua_PlayField["position"] = sol::property(&objects::notes::PlayField::position);
 
 		state.script_file(path);
 		call("onCreate");
-    }
+	}
 
-    LuaScript::~LuaScript() {
-		call("onDestroy");
-    }
+	LuaScript::~LuaScript() { call("onDestroy"); }
 } // namespace funkin::modding
