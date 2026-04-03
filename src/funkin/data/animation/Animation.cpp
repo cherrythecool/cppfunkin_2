@@ -18,7 +18,7 @@ namespace funkin::data::animation {
 
 		while (frameTimer >= 1.0f / framerate) {
 			frameTimer -= 1.0f / framerate;
-		if (currentFrame + 1 < frames.size()) {
+			if (currentFrame + 1 < frames.size()) {
 				currentFrame++;
 			}
 		}

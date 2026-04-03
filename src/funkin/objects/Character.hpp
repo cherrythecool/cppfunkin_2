@@ -18,8 +18,12 @@ namespace funkin::objects {
 
 			CharacterType type;
 			std::string characterName;
+			float holdTimer = 0.0f;
+			float singDuration = 4.0f;
 
 			std::shared_ptr<modding::LuaScript> script = nullptr;
+
+			void update(float delta) override;
 	};
 
 } // namespace funkin::objects

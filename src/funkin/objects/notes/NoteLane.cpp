@@ -1,6 +1,7 @@
 #include "NoteLane.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 #include "StrumNote.hpp"
 

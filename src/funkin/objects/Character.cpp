@@ -16,4 +16,11 @@ namespace funkin::objects {
 	}
 
 	Character::~Character() = default;
+
+	void Character::update(const float delta) {
+		Sprite::update(delta);
+		if (animation.currentAnimation->name.starts_with("sing")) {
+			holdTimer += delta;
+		}
+	}
 } // namespace funkin::objects

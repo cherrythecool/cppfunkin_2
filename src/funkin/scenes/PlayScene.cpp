@@ -50,7 +50,8 @@ namespace funkin::scenes {
 		for (const auto& lane : opponentField->members) {
 			lane->onNoteHit.append([this](const auto& note) {
 				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
-				this->dad->animation.play(anims[note->lane % 4]);
+				dad->animation.play(anims[note->lane % 4]);
+				dad->holdTimer = 0.0f;
 			});
 		}
 
@@ -62,14 +63,23 @@ namespace funkin::scenes {
 		for (const auto& lane : playerField->members) {
 			lane->onNoteHit.append([this](const auto& note) {
 				std::array<std::string, 4> anims = {"singLEFT", "singDOWN", "singUP", "singRIGHT"};
-				this->boyfriend->animation.play(anims[note->lane % 4]);
+				boyfriend->animation.play(anims[note->lane % 4]);
+				boyfriend->holdTimer = 0.0f;
 			});
 		}
 
 		conductor->start();
 		conductor->onBeatHit.append([this](const auto& beat) {
-			this->boyfriend->animation.play("idle");
-			this->dad->animation.play("idle");
+			const std::string bfAnimName = boyfriend->animation.currentAnimation->name;
+			if (boyfriend->holdTimer > conductor->stepCrochet * 0.0011f * boyfriend->singDuration && bfAnimName.starts_with("sing") && !bfAnimName.ends_with("miss") || boyfriend->holdTimer == 0.0f) {
+				boyfriend->animation.play("idle");
+				boyfriend->holdTimer = 0.0f;
+			}
+			const std::string dadAnimName = dad->animation.currentAnimation->name;
+			if (dad->holdTimer > conductor->stepCrochet * 0.0011f * dad->singDuration && dadAnimName.starts_with("sing") && !dadAnimName.ends_with("miss") || dad->holdTimer == 0.0f) {
+				dad->animation.play("idle");
+				dad->holdTimer = 0.0f;
+			}
 		});
 
 		callOnScripts("onCreatePost");

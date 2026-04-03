@@ -17,7 +17,7 @@ namespace funkin::data::animation {
 			bool looped = false;
 			std::string name;
 
-			std::uint8_t currentFrame = 0;
+			std::uint16_t currentFrame = 0;
 
 			void update(float delta);
 
