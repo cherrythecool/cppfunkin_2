@@ -1,6 +1,7 @@
 #include "Song.hpp"
 
 #include <fstream>
+#include <iostream>
 
 #include "nlohmann/json.hpp"
 #include "raylib.h"
@@ -78,6 +79,7 @@ namespace funkin::data {
 	}
 
 	SongData Song::parseVSlice(const std::string &songName) {
+		const std::string difficulty = "hard";
 		const std::string path = "assets/songs/" + songName + "/" + songName;
 
 		auto chart = std::ifstream(path + "-chart.json");
@@ -92,7 +94,9 @@ namespace funkin::data {
 		std::vector<NoteData> playerNotes = {};
 		std::vector<NoteData> opponentNotes = {};
 
-		for (auto note: parsedChart["notes"]["hard"]) {
+		std::vector<EventData> events = {};
+
+		for (auto note: parsedChart["notes"][difficulty]) {
 			bool player = note["d"] < 4;
 
 			auto noteData = NoteData{
@@ -109,10 +113,25 @@ namespace funkin::data {
 			}
 		}
 
+		for (auto event : parsedChart["events"]) {
+			std::unordered_map<std::string, std::any> parameters = {};
+			for (auto it = event["v"].begin(); it != event["v"].end(); ++it) {
+				parameters[it.key()] = it.value();
+			}
+			events.push_back(EventData{
+				.time = event["t"],
+				.name = event["e"],
+				.parameters = parameters,
+			});
+			std::ranges::sort(events, [](const EventData& a, const EventData& b) {return a.time < b.time;});
+
+		}
+
 		return {
 			.playerNotes = playerNotes,
 			.opponentNotes = opponentNotes,
-			.speed = parsedChart["scrollSpeed"]["hard"],
+			.events = events,
+			.speed = parsedChart["scrollSpeed"][difficulty],
 			.bpm = parsedMeta["timeChanges"][0]["bpm"],
 			.stage = parsedMeta["playData"]["stage"],
 			.player = parsedMeta["playData"]["characters"]["player"],

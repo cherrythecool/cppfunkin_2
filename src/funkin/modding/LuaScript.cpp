@@ -82,5 +82,7 @@ namespace funkin::modding {
 		call("onCreate");
 	}
 
-	LuaScript::~LuaScript() { call("onDestroy"); }
+	LuaScript::~LuaScript() {
+		call("onDestroy");
+	}
 } // namespace funkin::modding

@@ -14,6 +14,7 @@ include_directories(
         "src/funkin/scenes"
         "src/funkin/utilities"
         "external/lua"
+        "external/raytween/raylib tweening engine"
 )
 
 add_executable(${PROJECT_NAME} src/Main.cpp
@@ -93,6 +94,8 @@ add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/objects/Character.cpp
         src/funkin/objects/Character.hpp
         src/funkin/utilities/Macros.h
+        "external/raytween/raylib tweening engine/raytween.cpp"
+        "external/raytween/raylib tweening engine/tween.cpp"
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

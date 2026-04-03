@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
 #include "Sprite.hpp"
+#include "raytween.h"
 
 namespace funkin {
 	std::unique_ptr<Scene> Game::scene;
@@ -28,6 +29,7 @@ namespace funkin {
 		if (!scene->initialized || !scene->alive) {
 			return;
 		}
+		Raytween::DoTweens(delta);
 		scene->update(delta);
 
 		for (const auto& camera : cameras) {
