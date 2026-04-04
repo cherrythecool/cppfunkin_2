@@ -18,14 +18,15 @@ namespace funkin::scenes {
 		camHUD = std::make_shared<Camera>();
 		Game::cameras.push_back(camHUD);
 
-		const std::string songName = "titular";
-		auto songData = data::Song::parseSong(songName);
+		songName = "titular";
+		songData = data::Song::parseSong(songName);
+		events = songData.events;
 
 		inst = LoadMusicStream(("assets/songs/" + songName + "/Inst.ogg").c_str());
 		voicesPlayer = LoadMusicStream(("assets/songs/" + songName + "/Voices-player.ogg").c_str());
 		voices = LoadMusicStream(("assets/songs/" + songName + "/Voices-opponent.ogg").c_str());
 
-		std::vector tracks = {inst, voices, voicesPlayer};
+		tracks = {inst, voices, voicesPlayer};
 
 		conductor = std::make_shared<Conductor>(tracks);
 		conductor->bpm = songData.bpm;
@@ -97,6 +98,11 @@ namespace funkin::scenes {
 			else {
 				conductor->resume();
 			}
+		}
+
+		while (!events.empty() && events.front().time <= conductor->time){
+			std::cout << events.front().name << std::endl;
+			events.erase(events.begin());
 		}
 
 		callOnScripts("onUpdatePost", delta);
