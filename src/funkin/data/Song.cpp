@@ -114,14 +114,10 @@ namespace funkin::data {
 		}
 
 		for (auto event : parsedChart["events"]) {
-			std::unordered_map<std::string, std::any> parameters = {};
-			for (auto it = event["v"].begin(); it != event["v"].end(); ++it) {
-				parameters[it.key()] = it.value();
-			}
 			events.push_back(EventData{
 				.time = event["t"],
 				.name = event["e"],
-				.parameters = parameters,
+				.parameters = event["v"],
 			});
 			std::ranges::sort(events, [](const EventData& a, const EventData& b) {return a.time < b.time;});
 

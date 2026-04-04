@@ -96,6 +96,7 @@ add_executable(${PROJECT_NAME} src/Main.cpp
         src/funkin/utilities/Macros.h
         "external/raytween/raylib tweening engine/raytween.cpp"
         "external/raytween/raylib tweening engine/tween.cpp"
+        src/funkin/utilities/Tweens.hpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

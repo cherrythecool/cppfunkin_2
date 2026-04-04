@@ -1,10 +1,10 @@
 #pragma once
 
-#include <any>
 #include <cstdint>
 #include <string>
-#include <unordered_map>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace funkin::data {
 	typedef struct NoteData {
@@ -17,7 +17,7 @@ namespace funkin::data {
 	typedef struct EventData {
 		float time;
 		std::string name;
-		std::unordered_map<std::string, std::any> parameters;
+		nlohmann::basic_json<> parameters;
 	} EventData;
 
 	typedef struct SongData {

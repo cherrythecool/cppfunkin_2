@@ -1,5 +1,6 @@
 #include "PlayScene.hpp"
 
+#include "CoolUtil.hpp"
 #include "Game.hpp"
 #include "Sprite.hpp"
 #include "objects/notes/PlayField.hpp"
@@ -102,7 +103,14 @@ namespace funkin::scenes {
 		}
 
 		while (!events.empty() && events.front().time <= conductor->time){
-			std::cout << events.front().name << std::endl;
+			auto event = events.front();
+			if (event.name == "ZoomCamera") {
+				Raytween::Value(Game::defaultCamera->zoom, event.parameters["zoom"],
+				conductor->stepCrochet / 1000.0f * static_cast<float>(event.parameters["duration"]),
+								utilities::CoolUtil::easeFromString(event.parameters["ease"]))
+				->SetOnUpdate([](const float value) { Game::defaultCamera->zoom = value; });
+			}
+			callOnScripts("onEvent", events.front().name);
 			events.erase(events.begin());
 		}
 
