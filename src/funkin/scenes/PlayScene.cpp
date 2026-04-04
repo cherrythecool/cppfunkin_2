@@ -82,6 +82,7 @@ namespace funkin::scenes {
 		});
 
 		callOnScripts("onCreatePost");
+
 	}
 
 	void PlayScene::update(const float delta) {
