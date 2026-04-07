@@ -20,7 +20,7 @@ namespace funkin {
 		void add(std::shared_ptr<T> object);
 		void remove(std::shared_ptr<T> object);
 
-		void draw(float x = 0.0f, float y = 0.0f) override;
+		void draw(float x, float y, std::shared_ptr<Camera> cam) override;
 
 		void update(float delta) override;
 
@@ -48,10 +48,10 @@ namespace funkin {
 	}
 
 	template<IsObject T>
-	void Group<T>::draw(const float x, const float y) {
+	void Group<T>::draw(const float x, const float y, const std::shared_ptr<Camera> cam) {
 		for (auto member: members) {
 			if (member != nullptr) {
-				member->draw(x + position.x, y + position.y);
+				member->draw(x + position.x, y + position.y, cam);
 			}
 		}
 	}

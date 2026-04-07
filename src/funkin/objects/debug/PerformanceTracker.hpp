@@ -12,7 +12,7 @@ namespace funkin::objects::debug {
 			~PerformanceTracker() override;
 
 			void update(float delta) override;
-			void draw(float x, float y) override;
+			void draw(float x, float y, std::shared_ptr<Camera> cam) override;
 
 			int fps = 0;
 			std::size_t rawMemory = 0;

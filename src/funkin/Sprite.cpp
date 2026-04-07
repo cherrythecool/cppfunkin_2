@@ -55,15 +55,15 @@ namespace funkin {
 		animation.update(delta);
 	}
 
-	bool Sprite::isOnScreen(const float x, const float y) const {
-		const auto pos = camera->getWorldToScreen(Vector2{dest.x, dest.y});
+	bool Sprite::isOnScreen(const float x, const float y, const std::shared_ptr<Camera> &cam) const {
+		const auto pos = cam->getWorldToScreen(Vector2{dest.x, dest.y});
 		return pos.x + dest.width > 0 && pos.x < static_cast<float>(GetRenderWidth()) && pos.y + dest.height > 0 &&
 			   pos.y < static_cast<float>(GetRenderHeight());
 	}
 
 
-	void Sprite::draw(const float x, const float y) {
-		Object::draw(x, y);
+	void Sprite::draw(const float x, const float y, const std::shared_ptr<Camera> cam) {
+		Object::draw(x, y, cam);
 		if (texture.width <= 0 || texture.height <= 0) {
 			return;
 		}
@@ -79,9 +79,9 @@ namespace funkin {
 			dest.x -= animationOffset.x;
 			dest.y -= animationOffset.y;
 		}
-		dest.x += -camera->target.x * (scrollFactor.x - 1.0f);
-		dest.y += -camera->target.y * (scrollFactor.y - 1.0f);
-		if (!isOnScreen(x, y)) {
+		dest.x += -cam->target.x * (scrollFactor.x - 1.0f);
+		dest.y += -cam->target.y * (scrollFactor.y - 1.0f);
+		if (!isOnScreen(x, y, cam)) {
 			return;
 		}
 		DrawTexturePro(texture, source, dest, origin, angle, ColorAlpha(color, alpha));

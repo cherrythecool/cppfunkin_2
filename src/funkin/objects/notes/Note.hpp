@@ -26,6 +26,6 @@ namespace funkin::objects::notes {
 
 		void updateY(float songPosition, float targetY);
 
-		void draw(float x, float y) override;
+		void draw(float x, float y, std::shared_ptr<Camera> cam) override;
 	};
 }

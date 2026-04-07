@@ -10,7 +10,7 @@ namespace funkin {
 
 		~Scene() override;
 
-		void draw(float x = 0.0f, float y = 0.0f) override;
+		void draw(float x, float y, std::shared_ptr<Camera> cam) override;
 
 		bool initialized = false;
 

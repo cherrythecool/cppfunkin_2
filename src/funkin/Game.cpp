@@ -41,13 +41,13 @@ namespace funkin {
 				if (!member->alive || member->camera != camera) {
 					continue;
 				}
-				member->draw(0.0f, 0.0f);
+				member->draw(0.0f, 0.0f, camera);
 			}
 			EndMode2D();
 		}
 
 		performanceTracker.update(GetFrameTime());
-		performanceTracker.draw(0, 0);
+		performanceTracker.draw(0, 0, nullptr);
 
 	}
 

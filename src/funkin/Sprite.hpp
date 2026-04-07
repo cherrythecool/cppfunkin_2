@@ -38,12 +38,12 @@ namespace funkin {
 		game::AnimationController animation = game::AnimationController();
 
 		bool loadTexture(const std::string &path);
-		bool isOnScreen(float x, float y) const;
+		bool isOnScreen(float x, float y, const std::shared_ptr<Camera> &cam) const;
 
 		void updateHitbox();
 		void centerOffsets();
 
-		void draw(float x, float y) override;
+		void draw(float x, float y, std::shared_ptr<Camera> cam) override;
 		void update(float delta) override;
 
 		static void clearTextureCache();

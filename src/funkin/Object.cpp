@@ -15,5 +15,5 @@ namespace funkin {
 
 	void Object::update(float delta) {};
 
-	void Object::draw(float x, float y) {};
+	void Object::draw(float x, float y, std::shared_ptr<Camera> cam) {};
 }

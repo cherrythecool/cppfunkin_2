@@ -45,7 +45,6 @@ namespace funkin::scenes {
 
 		opponentField = std::make_shared<objects::notes::PlayField>(100.0f, 50.0f, 4, songData.speed, songData.opponentNotes, conductor);
 		opponentField->setBotplay(true);
-		opponentField->camera = camHUD;
 		add(opponentField);
 
 		for (const auto& lane : opponentField->members) {
