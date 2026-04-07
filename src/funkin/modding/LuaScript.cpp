@@ -1,5 +1,6 @@
 #include "LuaScript.hpp"
 
+#include <iostream>
 #include <utility>
 
 #include "Game.hpp"
