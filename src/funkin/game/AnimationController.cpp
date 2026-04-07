@@ -1,7 +1,5 @@
 #include "AnimationController.hpp"
 
-#include <iostream>
-
 #include "raylib.h"
 #include "raymath.h"
 

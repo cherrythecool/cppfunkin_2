@@ -3,6 +3,7 @@
 #include "CoolUtil.hpp"
 #include "Game.hpp"
 #include "Sprite.hpp"
+#include "events/CameraTarget.hpp"
 #include "objects/notes/PlayField.hpp"
 #include "raytween.h"
 
@@ -109,6 +110,20 @@ namespace funkin::scenes {
 				conductor->stepCrochet / 1000.0f * static_cast<float>(event.parameters["duration"]),
 								utilities::CoolUtil::easeFromString(event.parameters["ease"]))
 				->SetOnUpdate([](const float value) { Game::defaultCamera->zoom = value; });
+			}
+			else if (event.name == "FocusCamera") {
+				Vector2 target = Vector2Zero();
+				switch (static_cast<int>(event.parameters["char"])) {
+					case events::BOYFRIEND:
+						target = boyfriend->position;
+						break;
+					case events::DAD:
+						target = dad->position;
+						break;
+					default:
+						break;
+				}
+				Game::defaultCamera->target = target;
 			}
 			callOnScripts("onEvent", events.front().name);
 			events.erase(events.begin());

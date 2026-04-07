@@ -12,6 +12,10 @@
 
 namespace funkin::modding {
 	LuaScript::LuaScript(const std::string &path) {
+		if (!FileExists(path.c_str())) {
+			std::cerr << "File does not exist: " << path << std::endl;
+			return;
+		}
 		state.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 
 		state["add"] = sol::overload(&Game::add<Sprite>, &Game::add<objects::notes::PlayField>);

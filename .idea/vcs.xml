@@ -2,9 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build/_deps/zycore-src" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build/_deps/zydis-src" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build/_deps/zydis-src/dependencies/zycore" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/eventpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/json" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/lua" vcs="Git" />

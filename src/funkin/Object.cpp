@@ -13,9 +13,7 @@ namespace funkin {
 		alive = false;
 	}
 
-	void Object::update(float delta) {
-	};
+	void Object::update(float delta) {};
 
-	void Object::draw(float x, float y) {
-	};
+	void Object::draw(float x, float y) {};
 }

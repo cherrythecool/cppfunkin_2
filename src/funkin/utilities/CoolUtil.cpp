@@ -1,10 +1,12 @@
 #include "CoolUtil.hpp"
+
 #include <array>
 #include <iostream>
-#include <raylib.h>
+#include <algorithm>
 
 #include "Ease.hpp"
 #include "raytween.h"
+#include "raylib.h"
 
 namespace funkin::utilities {
 	std::string CoolUtil::formatBytes(std::size_t bytes, const std::uint8_t precision) {
@@ -22,7 +24,7 @@ namespace funkin::utilities {
 	}
 
 	std::function<float(float)> CoolUtil::easeFromString(std::string ease) {
-		std::transform(ease.begin(), ease.end(), ease.begin(), tolower);
+		std::ranges::transform(ease, ease.begin(), tolower);
 		if (ease == "sinein") {
 			return EASE_IN_SINE;
 		}
